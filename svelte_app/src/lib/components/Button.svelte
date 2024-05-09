@@ -29,7 +29,7 @@
   }
   .container{
     position: relative;
-    width: 400px;
+    width: 401px;
     height: 160px;
     overflow: hidden;
   }
