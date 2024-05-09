@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+	background: var(--colorScheme);
+	color:var(--color4);
+	margin: 0;
+	padding: 0;
+	transition: color .04s;
+	transition-delay: 0;
+}

@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
+
+@font-face {
+    font-family: 'Font1';
+    src: url('Rublack.otf');
+}
+
+@font-face {
+    font-family: 'Font2';
+    src: url('BebasNeue-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Font3';
+    src: url('Comfortaa-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Font4';
+    src: url('Retrow.ttf');
+}
+@font-face{
+    font-family: 'Nexa';
+    src: url('Nexa-Heavy.ttf');
+}
+@font-face{
+    font-family:'Lemands';
+    src: url('Lemands.ttf');
+}
+
+@font-face {
+    font-family: 'Font5';
+    src: url('Blunt.otf') format("opentype");
+}
+
+@font-face {
+    font-family: 'Font6';
+    src: url('ZTGatha-SemiBold.ttf');
+}
