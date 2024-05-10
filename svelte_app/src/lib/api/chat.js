@@ -11,7 +11,9 @@ const SOCKET = io(ENDPOINT, {
   	withCredentials: true,
 });
 
-export const enterChat = async () =>{
+let SESSION;
+
+export const enterChat = async (sessionId) =>{
 	SOCKET.on('connect',()=>{
     	console.log("You are connect in: ",SOCKET.id);
 	});
@@ -21,20 +23,18 @@ export const enterChat = async () =>{
 		for(let i=0;i<value.length;i++){
 			SOCKET.emit('join-room', value[i].details.id);		
 		}
-
+	SESSION = sessionId;
 }
 
-export const sendMessage = async(conversation_id,body,sender_id,sender_nick) => {
+export const sendMessage = async(conversation_id,body) => {
 
 	const mensagem = {
 		conversation_id: conversation_id,
 		body: body,
-		sender_id: sender_id,
-		sender_nick: sender_nick,
+		sessionId: SESSION,
 		send_at:  new Date(),
 	};
     SOCKET.emit("send-message", mensagem);
-    console.log("Mensagem enviada!");
 }
 
 export const receiveMessage = async() =>{
@@ -48,7 +48,6 @@ export const receiveMessage = async() =>{
   				const formated = {
 					conversation_id: mensagem.conversation_id,
 					body: mensagem.body,
-					sender_id: mensagem.sender_id,
 					sender_nick: mensagem.sender_nick,
 					send_at: mensagem.send_at,
   				} 

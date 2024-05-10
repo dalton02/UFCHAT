@@ -3,7 +3,7 @@ import {devEnvironment} from '$lib/api/keys.js';
 
 export const loginStudent = async (login,password) =>{
     
-	const ENDPOINT = devEnvironment.PUBLIC_SERVER_GATEWAY+"/session/login";
+    const ENDPOINT = devEnvironment.PUBLIC_SERVER_GATEWAY+"/session/login";
 	let headers = new Headers();
 
   	headers.append('Content-Type', 'application/json');
@@ -22,8 +22,6 @@ export const loginStudent = async (login,password) =>{
   		credentials: 'include'
 	};
 
-	console.log(REQUEST);
-
 	const response = await fetch(ENDPOINT, REQUEST);
 	const json = await response.json();
 
@@ -31,4 +29,5 @@ export const loginStudent = async (login,password) =>{
 		throw new Error(json.err);
 	}
 	console.log(json.message);
+	localStorage.setItem("userNick",json.nickname);
 }

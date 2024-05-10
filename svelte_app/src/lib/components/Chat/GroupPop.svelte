@@ -23,48 +23,73 @@
   dateFormat = hours+":"+minutes;
 
 
+
+
 </script>
 
 
-<div class="flex flex row content-center items-center pop w-full" on:click={handleClick}>
+<div class="flex flex row content-center items-center pop w-full" on:click={handleClick} 
+class:selected={idChat == $currentIdChat}>
 
+	<div class="profileImg">
 	<img src={profile}/>
-	<div class="flex flex-col ml-3">
-	<h3 class="text-2xl">{group}</h3>
-	<span class="text-sm">{lastMessage}</span>
 	</div>
-	<h4 class="text-.8rem">{dateFormat}</h4>
-
+	<div class="flex flex-col ml-2 w-full">
+	<div class="flex flex-row justify-between w-full">
+	<h3 class="text-xl np:text-sm">{group}</h3>
+	<h5 class="text-.8rem">{dateFormat}</h5>
+	</div>
+	<h4 class="text-sm">{lastMessage}</h4>
+	</div>
+	
 </div>
 
 <style>
 .pop{
 	height: 100%;
-	background: inherit;	
-	border-radius: .3rem;
+	background: inherit;
 	overflow: hidden;
 	color: var(--colorInverted);
-	font-family: 'Font1';
+	font-family: 'Lato';
 	position: relative;
-	width: 95%;
+	width: 100%;
 	cursor: pointer;
+	text-indent: 3px;
+	padding:10px;
 }
 h3{
 margin: 0;
-text-indent: 3px;
+font-weight: bold;
 }
 h4{
-	position: absolute;
-	right: 0;
-	top:0;
+	margin: 0;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  width: 100%;
+}
+h5{
+	margin: 0;
 }
 span{
 margin: 0;
 }
+.profileImg{
+	min-width: 15%;
+	width: 15%;
+	max-height: 100%;
+	aspect-ratio: 1/1;
+	border-radius: 100%;
+	overflow: hidden;
+}
 .pop img{
 	object-fit: contain;
 	aspect-ratio: 3/3;
-	width: 12%;	
-	border-radius: 100%;
+	width: 100%;	
+	transform: translateY(2px);
+}
+.selected{
+	background-color: rgba(0,0,0,.03);
 }
 </style>

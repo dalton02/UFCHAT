@@ -9,4 +9,8 @@ body{
 	padding: 0;
 	transition: color .04s;
 	transition-delay: 0;
+	background-image: radial-gradient(var(--color4) 2px, transparent 2px);
+	background-size: 45px 45px;
+	background-color: var(--colorScheme);
+
 }

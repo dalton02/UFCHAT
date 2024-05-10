@@ -31,16 +31,16 @@ export class SecurityMiddle{
 		
 		res.cookie('accessToken',newAccessToken,{maxAge:99999999999,path:'/',httpOnly:true,secure:false});
 		res.cookie('refreshToken',newRefreshToken,{maxAge:99999999999,path:'/',httpOnly:true,secure:false});
-
+	    
 		const fowardData = await tokenClass.verifyToken(newAccessToken,0) as {expired: boolean; data: any};
 		req.body = fowardData.data;	
 		next();
 		
 		}
 
-		
-		}catch(err){
-			return res.status(401).json({message:`Error no server: ${err}`});
+		}
+		catch(err){
+			return res.status(404).json({message:"Cookies/Token expirados"});	
 		}
 
 	}

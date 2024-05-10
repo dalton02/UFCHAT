@@ -2,17 +2,33 @@ import express, { Request, Response, NextFunction ,Router } from 'express';
 import { SequelizeConnection } from '../model/databaseCon';
 import { ChatServices } from '../model/databaseServices';
 import { ChatMiddle } from '../middleware/chatMiddle';
-
+import {sessionInstance} from '../session';
 const sequelize = new SequelizeConnection();
 const chat = new ChatServices(sequelize.seque);
 const mid = new ChatMiddle();
 const router: Router = express.Router();
 
-router.get('/:user_id', async (req: Request, res: Response)=>{
 
-	let {user_id} = req.params;
-	user_id = user_id.replace(/'/g,'');
-	const parsedId: number = parseInt(user_id, 10);
+router.post('/',async(req: Request,res:Response)=>{
+
+	let {userId,userNick} = req.body;
+	
+	try{
+		const sessionId = sessionInstance.enter(userId,userNick);
+		return res.status(200).json({message:"Session entered",sessionId: sessionId});
+	}
+	catch(err){
+		console.log(err);
+		return res.json({message:err});
+	}
+
+});
+
+router.get('/:userId', async (req: Request, res: Response)=>{
+
+	let {userId} = req.params;
+	userId = userId.replace(/'/g,'');
+	const parsedId: number = parseInt(userId, 10);
 	
 	try{
 	const conversations = await chat.loadConversations(parsedId);
@@ -32,7 +48,6 @@ router.get('/:user_id', async (req: Request, res: Response)=>{
 	}
 
 	chunk = JSON.parse(JSON.stringify(chunk));
-	console.log(chunk);
 	res.status(200).json({data: chunk});
 	}
 	catch(err){

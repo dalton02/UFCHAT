@@ -2,7 +2,7 @@
 //Este import fetch é importante para um cacete, nunca apaguem
 export const load = async({fetch}) =>{
 
-	const ENDPOINT = "http://localhost:4000/chat/";
+	const ENDPOINT = ["http://localhost:4000/chat/","http://localhost:4000/chat/session/"];
 	let headers = new Headers();
 
   	headers.append('Content-Type', 'application/json');
@@ -17,13 +17,15 @@ export const load = async({fetch}) =>{
   		credentials: 'include'
 	};
 
-	const response = await fetch(ENDPOINT, REQUEST);
+	const response = await fetch(ENDPOINT[0], REQUEST);
 	const json = await response.json();
+
+	const responseSession = await fetch(ENDPOINT[1], REQUEST);
+	const jsonSession = await responseSession.json();
 	
 	return {
-
-		chat: json
-	
+		chat: json,
+		session: jsonSession
 	};
 
 

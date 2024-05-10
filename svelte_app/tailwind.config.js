@@ -16,6 +16,9 @@ export default {
         '7rem': '7rem',
         '8rem': '8rem',
         '9rem': '9rem',
+        '.5xs': '10px',
+        '2sm': '.9rem',
+        
       },
     },
   screens: {

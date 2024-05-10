@@ -2,23 +2,20 @@
 	import Input from '$lib/components/Chat/Input.svelte';
 	import GroupPop from '$lib/components/Chat/GroupPop.svelte';
 	import user from '$lib/images/user.svg';	
-	import NavSwitch from '$lib/components/NavSwitch.svelte';
 	import {currentIdChat,chat} from '$lib/stores/chatStore.js';
+	import InfoChat from '$lib/components/Chat/InfoChat.svelte';
 
 </script>
 
 
-<div class="flex flex-col gap-10 containerChat">
+<div class="flex flex-col content-center items-center gap-10 containerChat">
 
-
-	<div class="flex flex-col gap-5 justify-center items-center content-center headerChat">
-	<NavSwitch/>
-	<Input placeholder="Buscar usuario ou grupo"/>
+	<div class="containerInfo">
+	<InfoChat/>
 	</div>
 
-
 	
-	<div class="flex flex-col items-center content-center groups">
+	<div class="flex flex-col mt-5 justify-center items-center content-center groups">
 	{#each $chat as d}
 	<GroupPop 
 	group={d.details.name} 
@@ -40,17 +37,18 @@
 	.containerChat{
 		width: 100%;
 		height: 100%;
-		background: var(--color2);
+		background-color: var(--colorScheme);
 		overflow: hidden;
 		color: var(--colorInverted);
-		font-family: 'Nexa';
+		font-family: 'Jaro', sans-serif;
+  		box-shadow: inset -10px 0px 80px 0px rgba(0, 0, 0, 0.16);
 	}
-	.headerChat{
-		height: 15%;
+	.containerInfo{
+		height: 30%;
 		width: 100%;
 	}
-	.groups{
-		gap:2rem;
+	.groups{	
+		width: 100%;
 		overflow-y: scroll;
 	}
 	.groups::-webkit-scrollbar {

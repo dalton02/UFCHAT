@@ -6,12 +6,12 @@
 	import {enterChat,receiveMessage} from '$lib/api/chat';
 	
 	export let data;
-	data = data.chat;
+	let messages = data.chat;
 	
-	chat.set(data);
-	currentIdChat.set(data[0].details.id);
-	
-	enterChat();
+	chat.set(messages);
+	currentIdChat.set(messages[0].details.id);
+	console.log(data.session);
+	enterChat(data.session.sessionId);
 	receiveMessage();
 
 	
@@ -39,17 +39,19 @@
 .general{
 	width: 100%;
 	height: 100dvh;
-	max-height: 720px;
 	padding: 0;
 	margin: 0;
+
 }
 .delimit{
 	width: 100%;
-	max-width: 1450px;
+	max-width: 2100px;
+	max-height: 1000px;
 	padding: 0;
 	margin: 0;
 }
 .sideChat{
+	width: 29%;
 	height: 100%;
 }
 .sideMessage{

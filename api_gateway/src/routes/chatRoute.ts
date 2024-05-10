@@ -21,8 +21,8 @@ chatRouter.get('/',security.verifyCookies,async (req: Request,res: Response) =>{
 	try{
 
     const cookies = req.cookies;		
-	const data = await tokenClass.verifyToken(cookies.accessToken,0);
-	const user_id = data.data.id
+	const token = await tokenClass.verifyToken(cookies.accessToken,0);
+	const user_id = token.data.id
 	
 	let config = {
         method: 'get',
@@ -45,5 +45,35 @@ chatRouter.get('/',security.verifyCookies,async (req: Request,res: Response) =>{
 });
 
 
+chatRouter.get('/session',security.verifyCookies,async (req: Request,res: Response)=>{
 
+    try{    
+
+        const cookies = req.cookies;        
+        const token = await tokenClass.verifyToken(cookies.accessToken,0);
+
+        let data = JSON.stringify({
+            "userId": token.data.id,
+            "userNick": token.data.nickname
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: devEnvironment.SERVERCHATIP+'/',
+            headers: { 
+             'Content-Type': 'application/json'
+            },
+            data : data
+        };
+
+        const response = await axios.request(config);
+        const getData = response.data as {message:string,sessionId:number};
+        return res.json(getData);
+    }
+    catch(err){
+        return res.json({message:err});
+    }
+
+});
 export {chatRouter};		

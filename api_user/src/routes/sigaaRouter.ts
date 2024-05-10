@@ -21,26 +21,17 @@ router.post('/', checkForm, async (req: Request, res: Response) => {
     const { login, password } = req.body;
 
     try {
-        console.log("User get REQUEST: ", req.body);
-        // Obtém cookies do SIGAA
-        const cookies = await userC.getCookiesFromSigaa();
-        // Obtém a página do usuário do SIGAA
-        const userPage = await userC.getInfoFromSigaa(login, password, cookies);
-        // Extrai informações essenciais da página do usuário
-        const data = await userC.getEssentialHtml(userPage);
-        console.log("User return DATA: ", data);
         
-        // Verifica se o usuário já existe no banco de dados
+        const cookies = await userC.getCookiesFromSigaa();
+        const userPage = await userC.getInfoFromSigaa(login, password, cookies);
+        const data = await userC.getEssentialHtml(userPage);
         const user = await userS.checkUser(data.id);
         
-        // Se o usuário não existir, adiciona ao banco de dados
         if (user == null)
             await userS.addUser(data.id, data.fullname, login, data.course, login);
         
-        // Retorna os detalhes do usuário
         res.status(200).json({ login: login, id: data.id, fullname: data.fullname, course: data.course, nickname: login });
     } catch (err) {
-        // Retorna erro se a autenticação falhar
         res.status(404).json({ err: 'Usuário ou senha incorreto(s)' });
     }
 });
@@ -52,9 +43,9 @@ router.get('/:id', checkForm, async (req: Request, res: Response) => {
     const parsedId: number = parseInt(id, 10);
 
     try {
-        // Verifica se o usuário existe no banco de dados
+     
         const user = await userS.checkUser(parsedId);
-        // Retorna os detalhes do usuário
+     
         res.json({
             login: user.dataValues.login, id: user.dataValues.id, fullname: user.dataValues.fullname,
             course: user.dataValues.course, nickname: user.dataValues.nickname

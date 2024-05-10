@@ -49,7 +49,8 @@ sessionRouter.post('/login',async (req: Request,res: Response) =>{
     
     res.cookie('accessToken',newAccessToken,{maxAge:99999999999,path:'/',httpOnly:true,secure:false});
 	res.cookie('refreshToken',newRefreshToken,{maxAge:99999999999,path:'/',httpOnly:true,secure:false});
-    return res.status(response.status).json({message:"Login bem sucedido"});
+
+    return res.status(response.status).json({message:"Login bem sucedido",nickname: getData.nickname});
 	} 
 
     //Pega erros do backend aqui
