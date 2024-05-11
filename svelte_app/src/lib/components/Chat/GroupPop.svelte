@@ -90,6 +90,6 @@ margin: 0;
 	transform: translateY(2px);
 }
 .selected{
-	background-color: rgba(0,0,0,.03);
+	background-color: rgba(0,0,0,.05);
 }
 </style>

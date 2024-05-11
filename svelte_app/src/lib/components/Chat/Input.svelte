@@ -2,14 +2,18 @@
   export let type;
   export let placeholder;
   export let value;
-  export let handleClick;
   export let lupa;
-
-
   export let getText;
+
+  let inputV;
+
   function handleChange(event){   
     const text = event.target.value;
     getText(text);
+  }
+
+  export function empty(){
+    inputV.value='';
   }
 
 </script>
@@ -17,7 +21,7 @@
   {#if lupa!=null}
   
   <div class="customInput">
-  <input class="searchInput text-sm"
+  <input bind:this={inputV} class="searchInput text-sm"
     type={type} required placeholder={placeholder} on:input={handleChange}
   />
   <span class="flex flex-row justify-center items-center content-center"><img src={lupa}/></span>
@@ -26,7 +30,7 @@
   {:else}
   <div class="customInput">
   <input class="normalInput text-lg"
-    type={type} required placeholder={placeholder} on:input={handleChange}
+    type={type} bind:this={inputV} required placeholder={placeholder} on:input={handleChange}
   />
   </div>
   {/if}

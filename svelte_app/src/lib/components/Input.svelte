@@ -33,7 +33,7 @@
     transform: translate(0,.4rem);
     transition: all .5s;
     pointer-events: none;
-    font-family: 'Ubuntu';
+    font-family: 'Lato';
     font-weight: bold;
   }
   input{
@@ -44,10 +44,10 @@
     text-indent: 10px;
     backdrop-filter: blur(10px);
     background: none;
-    box-shadow: inset 0px -10px 10px -7px rgba(0,0,0,.2) , -7px 5px 20px 0px  rgba(0,0,0,.3);
+    box-shadow: inset 0px -10px 10px -7px rgba(0,0,0,.25) , -7px 10px 20px 0px  rgba(0,0,0,.25);
     transition: all .5s;
     height: 2.5rem;
-    font-family: 'Ubuntu';
+    font-family: 'Lato';
     
   }
   input:focus + label,

@@ -43,7 +43,7 @@ export class ChatServices {
         conversation_id: conversation_id
       },
       order: [['send_at', 'ASC']], // Ordena por send_at em ordem crescente (mais antigo para mais recente)
-      limit: 3 // Limita a 2 resultados por chunk
+      limit: 30 // Limita a 2 resultados por chunk
     });
     return chunk;
   }
