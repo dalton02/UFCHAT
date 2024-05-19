@@ -2,21 +2,22 @@
   export let type;
   export let placeholder;
   export let value;
-  export let getText;
-
-  function handleChange(event){   
-    const text = event.target.value;
-    getText(text);
+  export let icon;
+  
+  let getText;
+  
+  export function getInput(){
+    return getText.value;
   }
-
 </script>
 
 
   <div class="customInput">
-  <input class="focus:outline-none focus:shadow-outline text-lg"
-    type={type} on:input={handleChange} required 
+  <input class="focus:outline-none focus:shadow-outline text-xl"
+    type={type}  placeholder={placeholder} required 
+    bind:this={getText}
   />
-  <label class="text-lg">{placeholder}</label>
+  <label><img src={icon}/></label>
   </div>
 
  
@@ -24,13 +25,14 @@
 <style>
   .customInput{
     width: 100%;
+    height: 50px;
     position: relative;
   }
   .customInput label{
     position: absolute;
     left: 0;
     margin-left: 10px;
-    transform: translate(0,.4rem);
+    transform: translate(0,11px);
     transition: all .5s;
     pointer-events: none;
     font-family: 'Lato';
@@ -38,26 +40,32 @@
   }
   input{
     width: 100%;
-    border-radius: 10rem;
+    height: 100%;
+    border-radius: 10px;
     margin: 0;
     padding: 0;
-    text-indent: 10px;
+    text-indent: 55px;
     backdrop-filter: blur(10px);
     background: none;
-    box-shadow: inset 0px -10px 10px -7px rgba(0,0,0,.25) , -7px 10px 20px 0px  rgba(0,0,0,.25);
+    box-shadow: inset 0px 0px 4px 0px rgba(0,0,0,.34) , 0px 0px 10px 0px  rgba(0,0,0,.1);
     transition: all .5s;
-    height: 2.5rem;
-    font-family: 'Lato';
-    
+    font-family: 'Lata';
   }
-  input:focus + label,
-  input:valid + label {
-  transform: translate(0,-1.8rem);
+  input::placeholder{
+    color: rgba(0,0,0,.78);
   }
-  input:focus +label{
-    color: var(--colorInverted);
+  label{
+    width: 10%;
+    height: 80%;
   }
-  
+  label img{
+    max-width: 65%;
+    min-width: 65%;
+    max-height: 65%;
+    min-height: 65%;
+    object-fit: contain;
+    z-index: 99999;
+  }
   input:focus{
     color: var(--colorInverted); 
   }

@@ -6,7 +6,7 @@
   <button on:click={handleClick} 
   class="flex flex-row justify-center items-center content-center">
   <a class="flex flex-row justify-center items-center content-center">
-    <span>{value}</span>
+    <span class="text-lg p:text-xs">{value}</span>
   </a>
   </button>
 
@@ -35,7 +35,6 @@
   overflow: hidden;
   }
   button span{
-    font-size: 1rem;
     transition: all .6s;
     position: absolute;
     z-index: 99;
@@ -61,13 +60,11 @@
 
 @media only screen and (max-width:800px){
   button{
-    width: 200px;
   }
 }
 
 @media only screen and (max-width:600px){
   button{
-    width: 180px;
   }
 }
 

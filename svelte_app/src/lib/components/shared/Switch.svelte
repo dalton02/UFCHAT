@@ -1,5 +1,5 @@
 <script>
-	import {theme} from '$lib/stores/globalStore.js';
+	import {theme} from '$store/globalStore.js';
     import { onMount } from 'svelte';
     export let myTheme;
     export let icon;

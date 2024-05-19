@@ -8,14 +8,14 @@
 </script>
 
 
-<div class="flex flex-col content-center items-center gap-10 containerChat">
+<div class="flex flex-col content-center gap-10 items-center containerChat">
 
 	<div class="containerInfo">
 	<InfoChat/>
 	</div>
 
 	
-	<div class="flex flex-col mt-5 justify-center items-center content-center groups">
+	<div class="flex flex-col justify-center items-center mt-10 content-center groups">
 	{#each $chat as d}
 	<GroupPop 
 	group={d.details.name} 

@@ -24,6 +24,24 @@ router.post('/',async(req: Request,res:Response)=>{
 
 });
 
+router.post('/addUserInChat', async(req:Request,res:Response)=>{
+
+	let {userId,chatsId} = req.body;
+	
+	try{
+
+		for(let i=0;i<chatsId.length;i++){
+			const add = await chat.addUserInChat(userId,chatsId[i]);
+		}
+		console.log("exited");
+		return res.status(200).send();
+
+	}catch(err){
+		return res.status(404).send();
+	}
+
+});
+
 router.get('/:userId', async (req: Request, res: Response)=>{
 
 	let {userId} = req.params;
@@ -33,10 +51,9 @@ router.get('/:userId', async (req: Request, res: Response)=>{
 	try{
 	const conversations = await chat.loadConversations(parsedId);
 	let chunk: any = [];
-	
 	for(let i=0;i<conversations.length;i++){
 		 let messages:any;
-		 let chat_id = conversations[i].dataValues.chat_id; 
+		 let chat_id = conversations[i].id; 
 		 messages = await chat.loadChunk(chat_id);
 		 let details = await chat.loadConversationDetails(chat_id);
 		 details = details.dataValues;

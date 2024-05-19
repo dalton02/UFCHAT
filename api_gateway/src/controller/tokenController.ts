@@ -16,8 +16,8 @@ generateAccessToken(login:string,fullname:string,id: number, nickname: string,co
 			nickname: nickname,
 			course: course
 		};
-		const options = {expiresIn: devEnvironment.TOKENACCESSEXPIRES};
-		resolve(jwt.sign(payload,devEnvironment.ACCESSTOKENSECRET,options));
+		const options = {expiresIn: devEnvironment.TOKEN_ACCESS_EXPIRES};
+		resolve(jwt.sign(payload,devEnvironment.ACCESS_TOKEN_SECRET,options));
 	});
 }
 
@@ -26,8 +26,8 @@ generateRefreshToken(id:number){
 		const payload = {
 			id: id,
 		};
-		const options = {expiresIn: devEnvironment.TOKENREFRESHEXPIRES};
-		resolve(jwt.sign(payload,devEnvironment.REFRESHTOKENSECRET,options));
+		const options = {expiresIn: devEnvironment.TOKEN_REFRESH_EXPIRES};
+		resolve(jwt.sign(payload,devEnvironment.REFRESH_TOKEN_SECRET,options));
 	});
 }
 
@@ -35,8 +35,8 @@ generateRefreshToken(id:number){
 verifyToken(token:any,type: number) {
   return new Promise<{expired: boolean, data: any}>((resolve,reject) =>{
   try {
-  	let key = devEnvironment.ACCESSTOKENSECRET;
-  	if(type==1) key = devEnvironment.REFRESHTOKENSECRET;
+  	let key = devEnvironment.ACCESS_TOKEN_SECRET;
+  	if(type==1) key = devEnvironment.REFRESH_TOKEN_SECRET;
   	
     const decoded = jwt.verify(token, key);
     resolve({ expired: false, data: decoded });

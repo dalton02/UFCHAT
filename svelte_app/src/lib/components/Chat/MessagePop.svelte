@@ -21,7 +21,6 @@
     tail = '35px 20px 35px 3px';
     dataPos = '2%';
   }
-  console.log(dataPos);
 </script>
 
 

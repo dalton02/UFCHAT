@@ -4,17 +4,19 @@
 	import ContainerMessage from '$lib/components/Chat/ContainerMessage.svelte';
 	import {currentIdChat,chat} from '$lib/stores/chatStore.js';
 	import {enterChat,receiveMessage} from '$lib/api/chat';
+	import {browser} from '$app/environment';
+	import { onMount } from "svelte";
 	
 	export let data;
 	let messages = data.chat;
 	
 	chat.set(messages);
+	//console.log("Em store:"+$chat);
 	currentIdChat.set(messages[0].details.id);
-	console.log(data.session);
 	enterChat(data.session.sessionId);
 	receiveMessage();
-
 	
+
 </script>
 
 <div class="flex flex-row justify-center general mb-5">

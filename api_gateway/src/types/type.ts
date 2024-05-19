@@ -18,3 +18,5 @@ export interface InterfaceToken{
 	};
 	expired: string;
 }
+
+export const generalChats = [5,6,7]; 

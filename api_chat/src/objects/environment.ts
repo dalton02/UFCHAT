@@ -9,12 +9,14 @@ export const development = {
     database: process.env.DB_NAME ?? '',
     username: process.env.DB_USERNAME ?? '',
     password: process.env.DB_PASSWORD ?? '',
-    host: 'localhost',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5736,
+    host: process.env.DB_HOST ?? 'localhost',
+    port: 5432,
     dialect: 'postgres',
     define: {
         timestamps: false // Remove colunas chatas
     },
+    SERVER_GATEWAY: process.env.SERVER_GATEWAY ?? '',  
+    SERVER_CLIENT:  process.env.SERVER_CLIENT ?? ''
 };
 
 

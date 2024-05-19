@@ -21,7 +21,7 @@ export class ServerChat{
 
 	startServer(){
 		this.app.use(express.json());
-		this.app.use(this.cors({credentials: true, origin: 'http://localhost:4000'}));
+		this.app.use(this.cors());
 		this.app.listen(development.server_port, () => {
   		console.log(`listening on port `+development.server_port)
 		})
@@ -29,7 +29,7 @@ export class ServerChat{
 
 	handleRequests(){
 	
-		this.app.use('/api/chat',router);
+		this.app.use('/api',router);
 		
 
 	}

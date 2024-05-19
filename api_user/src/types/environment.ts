@@ -14,5 +14,7 @@ export const development = {
     define: {
         timestamps: false // Remove colunas chatas
     },
+    SERVER_GATEWAY: process.env.SERVER_GATEWAY ?? '',
+    PORT: process.env.PORT ?? 0
 }
 

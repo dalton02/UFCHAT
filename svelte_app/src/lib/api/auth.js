@@ -21,13 +21,12 @@ export const loginStudent = async (login,password) =>{
     	headers: headers,
   		credentials: 'include'
 	};
-
 	const response = await fetch(ENDPOINT, REQUEST);
 	const json = await response.json();
-
 	if(!response.ok){
-		throw new Error(json.err);
+		throw new Error({message:"Servidor fora do ar"});
 	}
-	console.log(json.message);
-	localStorage.setItem("userNick",json.nickname);
+	if(respose.status==200 || respose.status==201)  localStorage.setItem("userNick",json.nickname);
+	else	throw new Error({message:"Usuario/senha incorreto"});
+	
 }

@@ -42,13 +42,6 @@ export const ConversationAttributes = {
   created_at: {
     type: DataTypes.DATE, 
     allowNull: false
-  }
-}
-
-export const ConversationParticipantsAttributes = {
-  chat_id: {
-    type: DataTypes.INTEGER, 
-    foreignKey: true
   },
   users_id: {
     type: DataTypes.ARRAY(DataTypes.INTEGER),

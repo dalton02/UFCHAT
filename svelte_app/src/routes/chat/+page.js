@@ -1,16 +1,17 @@
 
-//Este import fetch é importante para um cacete, nunca apaguem
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // Disable SSL certificate validation
+
+
+import {devEnvironment} from '$lib/api/keys.js';
+
 export const load = async({fetch}) =>{
 
-	const ENDPOINT = ["http://localhost:4000/chat/","http://localhost:4000/chat/session/"];
+
+	const ENDPOINT = [`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/`,`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/session/`];
 	let headers = new Headers();
-
-  	headers.append('Content-Type', 'application/json');
-  	headers.append('Accept', 'application/json');
-
-  	headers.append('Access-Control-Allow-Origin', '*');
-  	headers.append('Access-Control-Allow-Credentials', 'true');
-
+	console.log("Page.server reached: ");
+	console.log("Endpoint: "+ENDPOINT[0]);
+	console.log("Endpoint: "+ENDPOINT[1]);
 	const REQUEST = {
     	method: 'GET',
     	headers: headers,
@@ -19,10 +20,11 @@ export const load = async({fetch}) =>{
 
 	const response = await fetch(ENDPOINT[0], REQUEST);
 	const json = await response.json();
-
+	console.log(json);
 	const responseSession = await fetch(ENDPOINT[1], REQUEST);
 	const jsonSession = await responseSession.json();
 	
+	console.log(jsonSession);
 	return {
 		chat: json,
 		session: jsonSession

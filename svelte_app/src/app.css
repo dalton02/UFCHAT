@@ -12,5 +12,12 @@ body{
 	background-image: radial-gradient(var(--color4) 2px, transparent 2px);
 	background-size: 45px 45px;
 	background-color: var(--colorScheme);
+	width: 100vw;
+	height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
 
 }

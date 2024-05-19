@@ -1,6 +1,5 @@
  
 import {io} from 'socket.io-client';
-
 import {devEnvironment} from '$lib/api/keys.js';
 import {get} from 'svelte/store';
 import {currentIdChat,chat} from '$lib/stores/chatStore.js';
@@ -8,6 +7,7 @@ import {currentIdChat,chat} from '$lib/stores/chatStore.js';
 const ENDPOINT = devEnvironment.PUBLIC_SERVER_SOCKET;
  
 const SOCKET = io(ENDPOINT, {
+	path: '/socket.io',
   	withCredentials: true,
 });
 

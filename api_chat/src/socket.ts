@@ -14,20 +14,23 @@ export class SocketChat{
 	
 	constructor(){
 		this.io = new Server(development.socket_port, {
-  		cors: {
-    	origin: ['http://localhost:5173', 'https://admin.socket.io'],
-    	credentials: true,
-  		},
+  			cors: {
+    			origin: ['http://localhost:4173','http://localhost:5173','http://localhost:3000',
+    			'http://0.0.0.0:3000',development.SERVER_CLIENT], 
+    			methods: ["GET", "POST"],
+    			allowedHeaders: ["my-custom-header"], // Permitir cabeçalhos personalizados
+    			credentials: true // Permitir credenciais (cookies, tokens de autenticação, etc.)
+  			}
 		});
 		this.sequelize = new SequelizeConnection();
 		this.chat = new ChatServices(this.sequelize.seque);
-
+		console.log("Socket started on :"+development.socket_port);
 	}
 
 	open(){
 
 		this.io.on("connection",(client:any) =>{
-
+			console.log("Socket open connection for client");
   			client.on("send-message",(mensagem:any) =>{
     			const instance = sessionInstance.get(mensagem.sessionId);
     			if(!instance) return false;

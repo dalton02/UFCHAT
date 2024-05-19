@@ -5,11 +5,12 @@ const envPath = path.resolve(__dirname, '../../.env');
 dotenv.config({path: envPath});
 
 export const devEnvironment = {
-		ACCESSTOKENSECRET: process.env.ACCESSTOKENSECRET ?? '',
-		REFRESHTOKENSECRET: process.env.REFRESHTOKENSECRET ?? '',
-		SERVERPORT: process.env.SERVERPORT ?? 0,
-		TOKENACCESSEXPIRES: process.env.TOKENACCESSEXPIRES ?? '10m',
-		TOKENREFRESHEXPIRES: process.env.TOKENREFRESHEXPIRES ?? '1h',
-		SERVERUSERIP: process.env.SERVERUSERIP,
-		SERVERCHATIP: process.env.SERVERCHATIP
+		ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET ?? '',
+		REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET ?? '',
+		TOKEN_ACCESS_EXPIRES: '10m',
+		TOKEN_REFRESH_EXPIRES: '1h',
+		SERVER_PORT: process.env.SERVER_PORT ?? 0,
+		SERVER_USER: process.env.SERVER_USER,
+		SERVER_CHAT: process.env.SERVER_CHAT,
+		SERVER_CLIENT: process.env.SERVER_CLIENT ?? ''
 }
