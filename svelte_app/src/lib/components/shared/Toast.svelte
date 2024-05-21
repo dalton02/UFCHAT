@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { fade } from 'svelte/transition'
   import Error from '$shared/Error.svelte';
-
+  import Success from '$shared/Success.svelte';
   const dispatch = createEventDispatcher()
 
   export let type = 'error'
@@ -33,12 +33,12 @@
 <style>
   article {
     color: white;
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 1.2rem;
     border-radius: 0.2rem;
     display: flex;
     align-items: center;
-    margin: 0 auto 0.5rem auto;
-    width: 290px;
+    margin: 0 auto 0rem auto;
+    width: 300px;
     max-width: 400px;
     height:60px;
     border: 1px solid black;
@@ -53,12 +53,11 @@
     background: SkyBlue;
   }
   .text {
-    margin-left: 10px;
     font-family: 'Jaro';
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   }
   .wrapperIcon{
-    width: 20%;
+    width: 25%;
     height: 80%;
   }
   button {

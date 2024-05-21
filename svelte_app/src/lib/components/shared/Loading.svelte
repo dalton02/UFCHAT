@@ -1,22 +1,10 @@
 <script>
 
-    import {onMount} from 'svelte';
-
-    let loader;
-    let speed = 1;
-    export async function speedUp(){
-        while(true){
-            if(speed>0.45) speed = speed - 0.0005;
-            else break
-            loader.style.setProperty('--speed', `${speed}s`);
-            await new Promise(resolve => setTimeout(resolve, 10)); 
-        }
-    }
-
+    
 </script>
 
 
-<span class="loader" bind:this={loader}></span>
+<span class="loader"></span>
 
 <style>
     :root{

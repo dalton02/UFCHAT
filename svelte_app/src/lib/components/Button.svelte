@@ -1,12 +1,16 @@
 <script>
   export let value;
   export let handleClick;
+  export let width = '200px';
+  export let height = '50px';
+
+
  </script>
 
   <button on:click={handleClick} 
-  class="flex flex-row justify-center items-center content-center">
+  class="flex flex-row justify-center items-center content-center" style={`height: ${height};width:${width};`}>
   <a class="flex flex-row justify-center items-center content-center">
-    <span class="text-lg p:text-xs">{value}</span>
+    <span>{value}</span>
   </a>
   </button>
 
@@ -26,11 +30,10 @@
   button {
   appearance: none;
   background: var(--color4);
+  font-family: "Font6", sans-serif;
   cursor: pointer;
-  width:100%;
-  aspect-ratio: 16/4;
   transition: all .6s;
-  border-radius: .8rem;
+  border-radius: 2rem;
   position: relative;
   overflow: hidden;
   }

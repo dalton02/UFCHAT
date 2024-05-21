@@ -26,7 +26,34 @@ export const loginStudent = async (login,password) =>{
 	if(!response.ok){
 		throw new Error({message:"Servidor fora do ar"});
 	}
-	if(respose.status==200 || respose.status==201)  localStorage.setItem("userNick",json.nickname);
+	if(response.status==200 || response.status==201)  localStorage.setItem("userNick",json.nickname);
 	else	throw new Error({message:"Usuario/senha incorreto"});
+	return response.status;
 	
+}
+
+
+export const changeNickStudent = async (nick) =>{
+
+	const ENDPOINT = devEnvironment.PUBLIC_SERVER_GATEWAY+"/session/updateUser";
+	let headers = new Headers();
+
+  	headers.append('Content-Type', 'application/json');
+  	headers.append('Accept', 'application/json');
+
+  	headers.append('Access-Control-Allow-Origin', '*');
+  	headers.append('Access-Control-Allow-Credentials', 'true');
+
+	const REQUEST = {
+    	method: 'PUT',
+    	body: JSON.stringify({
+       		"user_nick": nick
+       	}),
+    	headers: headers,
+  		credentials: 'include'
+	};
+
+	const response = await fetch(ENDPOINT, REQUEST);
+	const json = await response.json();
+	return response;
 }

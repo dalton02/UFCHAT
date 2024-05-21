@@ -3,15 +3,10 @@
 @tailwind utilities;
 
 body{
-	background: var(--colorScheme);
 	color:var(--color4);
 	margin: 0;
 	padding: 0;
-	transition: color .04s;
-	transition-delay: 0;
-	background-image: radial-gradient(var(--color4) 2px, transparent 2px);
-	background-size: 45px 45px;
-	background-color: var(--colorScheme);
+	background-color: rgb(237, 236, 230);
 	width: 100vw;
 	height: 100dvh;
 	display: flex;
@@ -19,5 +14,6 @@ body{
 	justify-content: center;
 	align-content: center;
 	align-items: center;
-
+	overflow-y: hidden;
+	overflow-x: hidden;
 }
