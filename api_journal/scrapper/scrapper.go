@@ -5,6 +5,7 @@ import(
 	"fmt"
 	"strings" 
     "github.com/gocolly/colly"
+    
   )
 
 func RunScrapper(){

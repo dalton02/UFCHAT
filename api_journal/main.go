@@ -2,16 +2,13 @@ package main
 
 import (
 	"fmt"
-	"api_journal/scrapper"
+	"api_journal/server"
 )
 
 func main(){
 	
 	fmt.Println("Iniciando o scrapper...")
-
-	// Chama a função RunScrapper() do pacote scrapper
-	scrapper.RunScrapper()
-
+	server.MainServer()
 	fmt.Println("Scrapper finalizado.")
 
 }
