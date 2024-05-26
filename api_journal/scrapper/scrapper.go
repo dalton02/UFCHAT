@@ -5,34 +5,39 @@ import(
 	"fmt"
 	"strings" 
     "github.com/gocolly/colly"
-    
+    "github.com/PuerkitoBio/goquery" 
   )
 
 func RunScrapper(){
 
-    // Instancia um novo coletor
-    c := colly.NewCollector()
+    //Instancias de coletores
+    enumPageCollector := colly.NewCollector()
+    contentPageCollector := colly.NewCollector()
 
     // Define um callback para quando um elemento <a> com href for encontrado
-    c.OnHTML("section.twelve", func(e *colly.HTMLElement) {
+    contentPageCollector.OnHTML("section.twelve", func(e *colly.HTMLElement) {
         e.ForEach("a[href]", func(x int,elem *colly.HTMLElement){
-
         	link := elem.Attr("href")
         	contains := strings.Contains(link,"https://www.ufca.edu.br/informes/page")
 
         	if(!contains && link!="https://www.ufca.edu.br"){
         		fmt.Println(link)
-        		c.Visit(link)
+        		contentPageCollector.Visit(link)
         	}
         	
         })
     })
 
-    c.OnHTML("div.content.one.column.row", func(e *colly.HTMLElement){
+    //Content of each link
+    contentPageCollector.OnHTML("div.content.one.column.row", func(e *colly.HTMLElement){
     	fmt.Println(e.Text)
     })	
-
+    enumPageCollector.OnHTML("nav.ui.pagination.menu",func(e *colly.HTMLElement){
+  //      e.ForEach("a[href]", func(x int,elem *colly.HTMLElement){
+    //        dom,_ := goquery.NewDocument(elelm)
+      ///  })
+    })
     // Visita a página inicial do site de exemplo
-    c.Visit("https://www.ufca.edu.br/informes/")
-
+    contentPageCollector.Visit("https://www.ufca.edu.br/informes/")
+    enumPageCollector.Visit("https://www.ufca.edu.br/informes/")
 }

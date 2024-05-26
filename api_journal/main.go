@@ -7,8 +7,8 @@ import (
 
 func main(){
 	
-	fmt.Println("Iniciando o scrapper...")
+	fmt.Println("Iniciando aplicação...")
 	server.MainServer()
-	fmt.Println("Scrapper finalizado.")
+//	scrapper.RunScrapper()
 
 }

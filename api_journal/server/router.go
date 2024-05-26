@@ -7,7 +7,25 @@ import(
 	"strconv"
 	"os"
 	"io"
+	"encoding/json"
+    "path/filepath"
+	"github.com/google/uuid"
+	"api_journal/util"
 )
+type ImageResponse struct{
+		Url string 
+}
+type MessageResponse struct{
+		Message string
+}
+
+type ArticlePost struct{
+	Title string
+	Content string
+	Author_id int
+	Tags_id []int
+}
+ 
 
 func routeGetArticle(response http.ResponseWriter,request *http.Request){
 
@@ -30,12 +48,34 @@ func routeGetArticle(response http.ResponseWriter,request *http.Request){
 
 func routePostArticle(response http.ResponseWriter,request *http.Request){
 
-		if(request.Method=="POST"){
-
-			body := request.Body
-			fmt.Println(body)
-		
+		if(request.Method!="POST"){
+			fmt.Println("Método não permitido: ", http.StatusMethodNotAllowed)
+        	return
 		}
+		var newArticle ArticlePost
+		fmt.Println(request.Body)
+		decoder := json.NewDecoder(request.Body)
+		err := decoder.Decode(&newArticle)
+		if(err!=nil){
+			fmt.Println("Erro ao deserializar dados: ",err)
+			jsonData, _ := json.Marshal(MessageResponse{Message:"Erro ao deserializar dados"})
+    		response.Write(jsonData)
+			return
+		}
+		fmt.Println(newArticle)
+	
+		err = service.WriteArticle(db,newArticle.Title,newArticle.Content,newArticle.Author_id,newArticle.Tags_id)
+		if(err!=nil){
+			fmt.Println("Erro ao inserir artigo",err)
+			jsonData, _ := json.Marshal(MessageResponse{Message:"Erro ao inserir artigo no banco"})
+    		response.Write(jsonData)
+    		return
+		}
+
+		response.WriteHeader(http.StatusOK)
+		jsonData, _ := json.Marshal(MessageResponse{Message:"Post publicado com sucesso"})
+    	response.Write(jsonData)
+
 }
 
 
@@ -43,30 +83,70 @@ func uploadHandler(response http.ResponseWriter, request *http.Request) {
    
     if request.Method != http.MethodPost {
         http.Error(response, "Método não permitido", http.StatusMethodNotAllowed)
+        fmt.Println("Gotcha!")
         return
     }
 
-    file, _, err := request.FormFile("image")
-    if err != nil {
-        http.Error(response, "Erro ao receber o arquivo", http.StatusInternalServerError)
-        return
+	response.Header().Set("Content-Type","application/json")
+   
+    request.ParseMultipartForm(10 << 20) // Tamanho máximo de 10MB
+    
+    file, handler,err := request.FormFile("imagem") //Pegando id do input do forms
+	defer file.Close()
+
+    if err!=nil{
+   	response.WriteHeader(http.StatusInternalServerError)
+    	jsonData, _ := json.Marshal(MessageResponse{Message:"Erro ao receber arquivo"})
+    	response.Write(jsonData)
+    	return
     }
-    defer file.Close()
-	
-	dst, err := os.Create("/resources/images/" + "teste.jpeg")
+
+   
+    if(!util.SanatizeFile(file)){
+   	response.WriteHeader(http.StatusInternalServerError)
+    	jsonData, _ := json.Marshal(MessageResponse{Message:"Arquivo incompativel"})
+    	response.Write(jsonData)
+    	return
+   	}
+
+    randomId := uuid.New().String()
+
+	newFile, err := os.Create("./resources/images/" + randomId + filepath.Ext(handler.Filename))
+	defer newFile.Close()
 	if err != nil {
-		http.Error(response, "Erro ao criar o arquivo", http.StatusInternalServerError)
+   	response.WriteHeader(http.StatusInternalServerError)
+    	jsonData, _ := json.Marshal(MessageResponse{Message:"Erro ao criar arquivo"})
+    	response.Write(jsonData)
+    	return
+	}
+	
+	if _, err := io.Copy(newFile, file); err != nil {
+   	response.WriteHeader(http.StatusInternalServerError)
+    	jsonData, _ := json.Marshal(MessageResponse{Message:"Erro ao transcrever arquivo"})
+    	response.Write(jsonData)
 		return
 	}
 	
-	defer dst.Close()
-	if _, err := io.Copy(dst, file); err != nil {
-		http.Error(response, "Erro ao copiar o conteúdo do arquivo", http.StatusInternalServerError)
+	fmt.Println("Enviado com sucesso")
+
+	tmp := fmt.Sprintf("%s%s",randomId,filepath.Ext(handler.Filename))
+	
+	imgResponse := ImageResponse{
+		Url: tmp,
+	}
+
+	err = service.SaveImage(db,tmp)
+	if(err!=nil){
+   	response.WriteHeader(http.StatusInternalServerError)
+    	jsonData, _ := json.Marshal(MessageResponse{Message:"Erro ao inserir no banco de imagens"})
+    	response.Write(jsonData)
 		return
 	}
 
+	response.WriteHeader(http.StatusOK)
+	jsonData, _ := json.Marshal(imgResponse)
+    response.Write(jsonData)
 }
-
 
 func doNothing(w http.ResponseWriter, r *http.Request){}
 
