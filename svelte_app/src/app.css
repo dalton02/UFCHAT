@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 body{
-	color:var(--color4);
+	color:var(--CIS10);
 	margin: 0;
 	padding: 0;
-	background-color: rgb(237, 236, 230);
+	background-color: var(--CS10);
 	width: 100vw;
 	height: 100dvh;
 	display: flex;
@@ -16,4 +16,5 @@ body{
 	align-items: center;
 	overflow-y: hidden;
 	overflow-x: hidden;
+	font-family: 'Lato';
 }

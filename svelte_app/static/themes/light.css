@@ -2,13 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-	--color1: #003944;
-	--color2: #e6f4f1;
-	--color3: #66ccd8; /*Cor oposta ao do texto*/
-	--color4: #003944; /*Cor do texto padrão*/
-	--colorInverted: rgb(10,10,10);
-	--colorInverted2: rgb(20,20,20);
-	--colorScheme: rgb(245,245,245);
-	--colorScheme2: rgb(225,225,225);
+:root{	
+	--CIS10: rgba(14,18,23,1);
+	--CIS8: rgba(14,18,23,.8);
+	--CIS6: rgba(14,18,23,.6);
+	--CIS4: rgba(14,18,23,.4);
+	--CIS2: rgba(14,18,23,.2);
+	--CIS1: rgba(14,18,23,.1);
+
+	--CS10: rgba(241, 237, 232,1);	
+	--CS8: rgba(241, 237, 232,.8);
+	--CS6: rgba(241, 237, 232,.6);
+	--CS4: rgba(241, 237, 232,.4);
+	--CS2: rgba(241, 237, 232,.2);
+	--CS1: rgba(241, 237, 232,.1);
+
+	--CD2: #1f5165;
+	--CD: #ff5165;
+
+	--BG: 0;
+	--CT: 100%;
 }

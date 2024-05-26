@@ -1,7 +1,7 @@
 <script>
 	import {io} from 'socket.io-client';
-	import ContainerChat from '$lib/components/Chat/ContainerChat.svelte';
-	import ContainerMessage from '$lib/components/Chat/ContainerMessage.svelte';
+	import ContainerChat from '$lib/components/chat/ContainerChat.svelte';
+	import ContainerMessage from '$lib/components/chat/ContainerMessage.svelte';
 	import {currentIdChat,chat} from '$lib/stores/chatStore.js';
 	import {enterChat,receiveMessage} from '$lib/api/chat';
 	import {browser} from '$app/environment';

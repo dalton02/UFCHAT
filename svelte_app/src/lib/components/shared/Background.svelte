@@ -19,7 +19,7 @@
 }
 
 .wave {
-    background: rgb(255,255,255,.8);
+    background: var(--CD);
     border-radius: 1000% 1000% 0 0;
     position: absolute;
     width: 200%;

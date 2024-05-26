@@ -32,7 +32,7 @@
 <style>
   .customInput{
     width: 100%;
-    height: 50px;
+    height: 45px;
     position: relative;
   }
   .customInput label{
@@ -44,17 +44,17 @@
   input{
     width: 100%;
     height: 100%;
-    border-radius: 30px;
+    border-radius: 5px;
     margin: 0;
     padding: 0;
     backdrop-filter: blur(1px);
-    background: rgba(255,255,255,.94);
+    background: var(--CS10);
     font-family: "Font6", sans-serif;
-    border:2px solid rgba(0,0,0,.80);
+    border:2px solid var(--CIS10);
     transition: all .5s;
   }
   input::placeholder{
-    color: rgba(0,0,0,.78);
+    color: var(--CIS10);
   }
   label{
     width: 10%;
@@ -73,10 +73,10 @@
     min-height: 65%;
     object-fit: contain;
     z-index: 99999;
-
     background: none;
     border: none;
     outline: none;
+    filter: contrast(var(--CT)) brightness(var(--BG));
   }
   input:focus{
     color: var(--colorInverted); 

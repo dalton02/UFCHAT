@@ -13,8 +13,8 @@
     .loader {
     width: 20%;
     aspect-ratio: 1/1;
-    border: 14px solid var(--color4);
-    border-bottom-color: var(--color3);
+    border: 14px solid var(--CD);
+    border-bottom-color: var(--CD2);
     border-radius: 100%;
     display: inline-block;
     box-sizing: border-box;

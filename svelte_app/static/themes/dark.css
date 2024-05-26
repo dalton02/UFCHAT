@@ -1,13 +1,24 @@
 
 :root{
-	--color1: #1f5165;
-	--color2: #080b12;
-	--color3: #0da3aa;
-	--color4: #6AC461;
-	--colorInverted: rgb(245,245,245);
-	--colorInverted2: rgb(235,235,235);
-	--colorScheme: rgb(10,10,10);
-	--colorScheme2: rgb(30,30,30);
+	--CS10: rgba(14,18,23,1);
+	--CS8: rgba(14,18,23,.8);
+	--CS6: rgba(14,18,23,.6);
+	--CS4: rgba(14,18,23,.4);
+	--CS2: rgba(14,18,23,.2);
+	--CS1: rgba(14,18,23,.1);
+
+	--CIS10: rgba(241, 237, 232,1);	
+	--CIS8: rgba(241, 237, 232,.8);
+	--CIS6: rgba(241, 237, 232,.6);
+	--CIS4: rgba(241, 237, 232,.4);
+	--CIS2: rgba(241, 237, 232,.2);
+	--CIS1: rgba(241, 237, 232,.1);
+
+	--CD: #1f5165;
+	--CD2: #ff5165;
+
+	--BG: 100;
+	--CT: 0;
 }
 
 /*Cores fortes no final*/

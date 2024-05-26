@@ -10,7 +10,7 @@
   <button on:click={handleClick} 
   class="flex flex-row justify-center items-center content-center" style={`height: ${height};width:${width};`}>
   <a class="flex flex-row justify-center items-center content-center">
-    <span>{value}</span>
+    <span class="text-2xl">{value}</span>
   </a>
   </button>
 
@@ -29,8 +29,8 @@
   }
   button {
   appearance: none;
-  background: var(--color4);
-  font-family: "Font6", sans-serif;
+  background: var(--CD);
+  font-family: "Font2", sans-serif;
   cursor: pointer;
   transition: all .6s;
   border-radius: 2rem;
@@ -41,13 +41,13 @@
     transition: all .6s;
     position: absolute;
     z-index: 99;
-    color: var(--color2);
+    color: var(--CIS10);
   }
   button::after{
     content: "";
     width: 110%;
     position: absolute;
-    background: var(--color3);
+    background: var(--CD2);
     transform: translate(-100%,20%);
     transition: all .6s;
     aspect-ratio: 1/1;
@@ -57,19 +57,10 @@
     transform: translate(0);
   }
   button:hover span{
-    color: var(--colorInverted);
+    color: var(--CS10);
   }
 
 
-@media only screen and (max-width:800px){
-  button{
-  }
-}
-
-@media only screen and (max-width:600px){
-  button{
-  }
-}
 
 
 </style>
