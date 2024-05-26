@@ -13,7 +13,12 @@ export class SecurityMiddle{
 
 		try{
 		console.log("Middleware reached");
-    	const cookies = req.cookies;
+		if(req.url=='/session/login'){
+			console.log("Hard pass");
+			return next();
+		}
+
+		const cookies = req.cookies;
     	//Checando se token expirou	
 		const myAccess = await tokenClass.verifyToken(cookies.accessToken,0);
 		const myRefresh = await tokenClass.verifyToken(cookies.refreshToken,1);
@@ -32,9 +37,12 @@ export class SecurityMiddle{
 		res.cookie('refreshToken',newRefreshToken,{maxAge:99999999999,path:'/',httpOnly:true,secure:true,sameSite:'none'});
 	    
 		const fowardData = await tokenClass.verifyToken(newAccessToken,0) as {expired: boolean; data: any};
-		req.body = fowardData.data;	
+		req.body = {
+			data: req.body,
+			cookies: fowardData.data
+		}
 		console.log("All good to past middleware");
-		next();
+		return next();
 		
 		}
 
@@ -43,6 +51,11 @@ export class SecurityMiddle{
 			return res.status(404).json({message:"Cookies/Token expirados"});	
 		}
 
+	}
+
+	seekInfo = async(req: Request, res: Response, next:NextFunction) =>{
+		console.log(req.body);
+		next();
 	}
 
 }

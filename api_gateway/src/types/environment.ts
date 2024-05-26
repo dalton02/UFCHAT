@@ -14,3 +14,14 @@ export const devEnvironment = {
 		SERVER_CHAT: process.env.SERVER_CHAT,
 		SERVER_CLIENT: process.env.SERVER_CLIENT ?? ''
 }
+
+export const ROUTES = [
+	{
+		url: 'session',
+		target: process.env.SERVER_USER,
+	},
+	{
+		url: 'chat',
+		target: process.env.SERVER_CHAT,
+	}
+]
