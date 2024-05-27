@@ -4,22 +4,56 @@ import (
     "database/sql"
     "fmt"
     "github.com/lib/pq"
-    "api_journal/util"
-   
+    "encoding/json"
 )
 
-type Article struct{
-	Id int
-	Title string
-	Content string
-	Author_id int
-	Tags_id []int
+type Comment struct {
+	Id            int       `json:"id"`
+	User_id        int       `json:"user_id"`
+	Content       string    `json:"content"`
+	Parent_comment int       `json:"parent_comment"`
+	Send_at        string    `json:"send_at"`
 }
- 
+
+type Article struct {
+	Id         int       `json:"id"`
+	Title      string    `json:"title"`
+	Content    string    `json:"content"`
+	Author_id   int       `json:"author_id"`
+	Tags       string    `json:"tags"`
+	Send_at  string       `json:"send_at"`
+	Fire_react  int       `json:"fire_react"`
+	Heart_react int       `json:"heart_react"`
+	Like_react  int       `json:"like_react"`
+	Comments   []Comment `json:"comments"`
+}
+
+
 func GetArticle(db *sql.DB,id int) (Article,error){
 	var article Article
-	
-	rows, err := db.Query("SELECT * FROM articles where id=$1",id)
+	var comments []byte
+	query := `SELECT  
+    CASE 
+        WHEN COUNT(c.id) > 0 
+            THEN JSON_ARRAYAGG(JSON_BUILD_OBJECT('id', c.id, 'user_id', c.user_id, 'content', c.content, 'parent_comment', c.parent_comment, 'send_at', c.send_at)) 
+        ELSE NULL 
+    END AS comments,
+    a.id,
+    a.title,
+    a.content,
+    a.author_id,
+    a.tags,
+    a.send_at,
+    r.fire_react,
+    r.heart_react,
+    r.like_react
+FROM articles a 
+LEFT JOIN comments c ON c.article_id = a.id 
+LEFT JOIN reactions r ON r.article_id = a.id
+WHERE a.id = $1
+GROUP BY a.id, a.title, a.content, a.author_id, a.tags, a.send_at,r.fire_react, r.heart_react, r.like_react`
+
+	rows, err := db.Query(query,id)
 	if (err != nil){
 		fmt.Println("Erro na query: ",err)
 		return article,err
@@ -30,22 +64,78 @@ func GetArticle(db *sql.DB,id int) (Article,error){
 		err = fmt.Errorf("Nenhum artigo encontrado com o ID: %d", id)
 		return article,err
 	}
-
-	var stringToInt []string
         
-    if err := rows.Scan(&article.Title, &article.Content, &article.Author_id,pq.Array(&stringToInt),&article.Id); err != nil {
+    if err := rows.Scan(&comments,&article.Id,&article.Title, &article.Content, &article.Author_id,
+    &article.Tags,&article.Send_at,&article.Fire_react,&article.Heart_react,&article.Like_react); err != nil {
     		fmt.Println("Erro ao escanear linha:", err)
     		return article,err
     }
-	article.Tags_id = util.ArrayToInt(stringToInt)
+
+    if err := json.Unmarshal(comments, &article.Comments); err != nil {
+		fmt.Println("Erro ao deserializar comentários:", err)
+		return article, err
+	}
+
 	fmt.Println(article)
     
     return article,nil
 }
 
-func WriteArticle(db *sql.DB,title string,content string,author_id int,tags_id []int)(error){
-	convertedString := util.ArrayToString(tags_id)
-	_, err := db.Exec("INSERT INTO articles (title,content,author_id,tags_id) VALUES($1,$2,$3,$4)",title,content,author_id,convertedString)
+func GetChunckArticle(db*sql.DB,tam int)([]Article,error){
+	var articles []Article
+	
+	query := `SELECT  
+    CASE 
+        WHEN COUNT(c.id) > 0 
+            THEN JSON_ARRAYAGG(JSON_BUILD_OBJECT('id', c.id, 'user_id', c.user_id, 'content', c.content, 'parent_comment', c.parent_comment, 'send_at', c.send_at)) 
+        ELSE '[]'::json  
+    END AS comments,
+    a.id,
+    a.title,
+    a.content,
+    a.author_id,
+    a.tags,
+    a.send_at,
+    r.fire_react,
+    r.heart_react,
+    r.like_react
+FROM articles a 
+LEFT JOIN comments c ON c.article_id = a.id 
+LEFT JOIN reactions r ON r.article_id = a.id
+GROUP BY a.id, a.title, a.content, a.author_id, a.tags,a.send_at,r.fire_react, r.heart_react, r.like_react
+`
+
+
+
+	rows, err := db.Query(query)
+
+	if (err != nil){
+		fmt.Println("Erro na query: ",err)
+		return articles,err
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		var article Article
+		var comments []byte
+  		if err := rows.Scan(&comments, &article.Id, &article.Title, &article.Content, &article.Author_id,
+			&article.Tags, &article.Send_at, &article.Fire_react, &article.Heart_react, &article.Like_react); err != nil {
+			fmt.Println("Erro ao escanear linha:", err)
+			return articles, err
+		}
+		if err := json.Unmarshal(comments, &article.Comments); err != nil {
+			fmt.Println("Erro ao deserializar comentários:", err)
+			return articles, err
+		}
+		articles = append(articles,article)
+	}
+	fmt.Println("Sucesso")
+	return articles,nil
+}
+
+func WriteArticle(db *sql.DB,title string,content string,author_id int,tags []string)(error){
+
+	_, err := db.Exec("INSERT INTO articles (title,content,author_id,tags,send_at) VALUES($1,$2,$3,$4,NOW())",title,content,author_id,pq.Array(tags))
 	
 	if(err!=nil){
 		fmt.Println("Não foi possivel inserir artigo:",err);

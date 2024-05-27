@@ -20,9 +20,10 @@ func MainServer(){
     fs := http.FileServer(http.Dir("./resources/images/"))
     http.Handle("/files/", http.StripPrefix("/files/", fs))
 
-	http.HandleFunc("/", routeGetArticle)
+	http.HandleFunc("/", routeChunkArticle)
+	http.HandleFunc("/get", routeGetArticle)
 	http.HandleFunc("/post", routePostArticle)
-	http.HandleFunc("/sendImage", uploadHandler) //Test only
+	http.HandleFunc("/sendImage", routePostImage)
 	http.HandleFunc("/favicon.ico", doNothing)
 	
 

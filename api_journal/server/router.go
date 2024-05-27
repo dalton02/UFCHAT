@@ -23,28 +23,60 @@ type ArticlePost struct{
 	Title string
 	Content string
 	Author_id int
-	Tags_id []int
+	Tags []string
 }
+
  
-
 func routeGetArticle(response http.ResponseWriter,request *http.Request){
-
-		if(request.Method=="GET"){
-
-			query := request.URL.Query()
-			id := query.Get("id")
-
-			num, err := strconv.Atoi(id)
-        	if err != nil {
-            	fmt.Println("Id ",id," invalida:",err)
-            	return
-        	}
-
-			service.GetArticle(db,num)
-
-		
+		if(request.Method!="GET"){
+			fmt.Println("Método não permitido: ", http.StatusMethodNotAllowed)
+        	return
 		}
+		query := request.URL.Query()
+		id := query.Get("id")
+
+		num, err := strconv.Atoi(id)
+       	if err != nil {
+           	fmt.Println("Id ",id," invalida:",err)
+           	return
+       	}
+
+		article,err := service.GetArticle(db,num)	
+		if (err!=nil){
+			fmt.Println("Erro: ",err)
+		}
+
+		response.WriteHeader(http.StatusOK)
+		jsonData, _ := json.Marshal(article)
+    	response.Write(jsonData)
 }
+
+
+func routeChunkArticle(response http.ResponseWriter,request *http.Request){
+
+		if(request.Method!="GET"){
+			fmt.Println("Método não permitido: ", http.StatusMethodNotAllowed)
+        	return
+		}
+
+		offset := request.URL.Query().Get("offset")
+		num, err := strconv.Atoi(offset)
+        if err != nil {
+           	fmt.Println("Id ",offset," invalida:",err)
+           	return
+        }
+        fmt.Println(num)
+		articles,err := service.GetChunckArticle(db,num)
+		if (err!=nil){
+			fmt.Println("Erro: ",err)
+		}
+
+		response.WriteHeader(http.StatusOK)
+		jsonData, _ := json.Marshal(articles)
+    	response.Write(jsonData)
+		
+}
+
 
 func routePostArticle(response http.ResponseWriter,request *http.Request){
 
@@ -64,7 +96,7 @@ func routePostArticle(response http.ResponseWriter,request *http.Request){
 		}
 		fmt.Println(newArticle)
 	
-		err = service.WriteArticle(db,newArticle.Title,newArticle.Content,newArticle.Author_id,newArticle.Tags_id)
+		err = service.WriteArticle(db,newArticle.Title,newArticle.Content,newArticle.Author_id,newArticle.Tags)
 		if(err!=nil){
 			fmt.Println("Erro ao inserir artigo",err)
 			jsonData, _ := json.Marshal(MessageResponse{Message:"Erro ao inserir artigo no banco"})
@@ -79,7 +111,7 @@ func routePostArticle(response http.ResponseWriter,request *http.Request){
 }
 
 
-func uploadHandler(response http.ResponseWriter, request *http.Request) {
+func routePostImage(response http.ResponseWriter, request *http.Request) {
    
     if request.Method != http.MethodPost {
         http.Error(response, "Método não permitido", http.StatusMethodNotAllowed)
