@@ -11,11 +11,14 @@ const gatewayRouter = express.Router();
 const tokenClass = new TokenController();
 const security = new SecurityMiddle();
 
-gatewayRouter.all("/:url/:api",security.verifyCookies,async(req: Request,res: Response)=>{
+//gatewayRouter.use(security.verifyCookies);
 
-	let {url,api} = req.params;
+gatewayRouter.all("/:url/*",async(req: Request,res: Response)=>{
 
-	if(!ROUTES.some(route=> route.url == url)){
+	let {url} = req.params;
+    let api = (req.url).replace(/^\/[^\/]+/,'');
+
+    if(!ROUTES.some(route=> route.url == url)){
 		console.log("Is no match");
 		return res.status(404).send();
 	}
@@ -25,25 +28,28 @@ gatewayRouter.all("/:url/:api",security.verifyCookies,async(req: Request,res: Re
     try{
 	let config = {
         method: req.method,
-        url:  `${route[0].target}/${api}`,
+        url:  `${route[0].target}${api}`,
         data: req.body
      };
 
     console.log(config);
     const response = await axios.request(config);
  	const getData = response.data;
-
     //Refatorar rotas multiplexadas depois...
 
-    if(url=='session' && api=='login'){
+    if(url=='session' && api=='/login'){
     	if(response.status==201){
         console.log("New user in production....");
-        config.url = route[0].target+"/api/addUserInChat";
-        config.data = JSON.stringify({
-            userId: getData.id,
-            chatsId: generalChats,
-        });
-        await axios.request(config);
+        let newConfig = {
+            method: 'POST',
+            url: ROUTES[1].target+"/addUserInChat",
+            data: {
+                userId: getData.id,
+                chatsId: generalChats,
+            }
+        };
+
+        await axios.request(newConfig);
 	    console.log("All set to new user");	
 	}
 
@@ -56,10 +62,10 @@ gatewayRouter.all("/:url/:api",security.verifyCookies,async(req: Request,res: Re
 
         res.cookie("refreshToken", newRefreshToken, {maxAge: 99999999999,path: "/",
         httpOnly: true,secure: true,sameSite: "none",});
-     
+        
         return res.status(response.status).json(getData);
 	}
-
+console.log(getData);
     return res.status(response.status).json(getData);
 	
     }

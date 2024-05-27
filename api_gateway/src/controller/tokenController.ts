@@ -41,7 +41,7 @@ verifyToken(token:any,type: number) {
     const decoded = jwt.verify(token, key);
     resolve({ expired: false, data: decoded });
   } catch (error) {
-    reject({ expired: true, data: error });
+  	resolve({ expired: true, data: error }); //Cannot be reject cause iwill throw erro too son
   }
 });
 }

@@ -12,6 +12,7 @@ export const devEnvironment = {
 		SERVER_PORT: process.env.SERVER_PORT ?? 0,
 		SERVER_USER: process.env.SERVER_USER,
 		SERVER_CHAT: process.env.SERVER_CHAT,
+		SERVER_NEWS: process.env.SERVER_NEWS,
 		SERVER_CLIENT: process.env.SERVER_CLIENT ?? ''
 }
 
@@ -23,5 +24,9 @@ export const ROUTES = [
 	{
 		url: 'chat',
 		target: process.env.SERVER_CHAT,
+	},
+	{
+		url: 'news',
+		target: process.env.SERVER_NEWS,
 	}
 ]
