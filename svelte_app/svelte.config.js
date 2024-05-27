@@ -10,6 +10,7 @@ const config = {
       $api: "src/lib/api",
       $store: "src/lib/stores",
       $image: "src/lib/images",
+      $src: "src",
       // adicione outros atalhos conforme necessário
     },
   },

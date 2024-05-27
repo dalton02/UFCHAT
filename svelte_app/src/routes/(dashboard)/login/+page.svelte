@@ -1,6 +1,6 @@
 <script>
 		import Input from '$lib/components/login/Input.svelte';
-    import Button from '$lib/components/login/Button.svelte';
+    import Button from '$shared/Button.svelte';
 	  import {loginStudent,changeNickStudent} from '$lib/api/auth.js';    
     import chatIcon from "$lib/images/chatIcon.svg";
     import newsIcon from '$lib/images/newspaper.svg'
@@ -16,7 +16,7 @@
     let loginElement;
     let loadingElement;
     let welcomeElement;
-    let explosion = true;
+    let explosion = false;
 
     let login;
     let password;
@@ -173,13 +173,13 @@
 .loginSide{
   width: 100%;
   max-width: 450px;
-  display: none;
   }
   .welcomeBoard{
   width: 100%;
   max-width: 450px;
-    z-index: 100;
-    position: relative;
+  z-index: 100;
+  position: relative;
+  display: none;
   }
 
   @keyframes wiggle2{

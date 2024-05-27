@@ -9,9 +9,7 @@ export const load = async({fetch}) =>{
 
 	const ENDPOINT = [`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/`,`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/session/`];
 	let headers = new Headers();
-	console.log("Page.server reached: ");
-	console.log("Endpoint: "+ENDPOINT[0]);
-	console.log("Endpoint: "+ENDPOINT[1]);
+	
 	const REQUEST = {
     	method: 'GET',
     	headers: headers,

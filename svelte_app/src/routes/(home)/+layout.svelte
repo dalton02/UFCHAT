@@ -1,4 +1,6 @@
 <script>
+import "$src/app.css";
+import "$lib/fonts/fonts.css";
 import bookE from '$lib/images/emojis/book.svg';
 import coolE from '$lib/images/emojis/cool.svg';
 import bellE from '$lib/images/emojis/bell.svg';
@@ -7,15 +9,16 @@ import booksE from '$lib/images/emojis/books.svg';
 import homeE from '$lib/images/emojis/house.svg';
 import scrollE from '$lib/images/emojis/scroll.svg';
 import BarMenu  from '$shared/BarMenu.svelte';
-import "../../app.css";
-import "$lib/fonts/fonts.css";
-import {theme} from '$lib/stores/globalStore';
-import {onMount} from 'svelte';
+import Button from '$shared/Button.svelte';
 
-/**
-* @type {HTMLDivElement}
-*/
+import {onMount} from 'svelte';
+import {goto} from '$app/navigation';
+
 let menu;
+export let data
+const isAuth = false;
+
+
 function showMenu(){
 	menu.style.display = "flex";
 }
@@ -41,22 +44,23 @@ onMount(()=>{
 
 </script>
 
-<svelte:head>
-  <meta name="color-scheme" content={`${$theme}`}/>
-  <link rel="stylesheet" href={`/themes/dark.css`}/>
-</svelte:head>
-
 
 
 <div class="container">
 
-<div class="flex flex-row justify-between menuTop">
+<div class="flex flex-row justify-between w-full menuTop">
 	<div class="flex flex-row gap-5">
 	<BarMenu handleClick={showMenu}/>
 	<img alt="Logo here"/>
 	</div>
 	<div class="flex flex-row">
-	<button>Nova postagem</button>
+
+	{#if isAuth}
+	<Button value="Nova Postagem" handleClick={()=>{goto('/post')}}/>
+	{:else}
+	<Button value="Faça seu login" handleClick={()=>{goto('/login')}}/>
+	{/if}
+
 	</div>
 </div>
 
@@ -67,15 +71,25 @@ onMount(()=>{
 		<i class="hidden p:flex cursor-pointer" on:click={exitMenu}>x</i>
 	</div>
 	<ul class="flex flex-col mt-5">
-		<li class="flex flex-row gap-5 cursor-pointer"><img src={homeE} alt="emoji"/>Home</li>
-		<li class="flex flex-row gap-5 cursor-pointer"><img src={scrollE} alt="emoji"/>Editais</li>
-		<li class="flex flex-row gap-5 cursor-pointer"><img src={booksE} alt="emoji"/>Artigos</li>
-		<li class="flex flex-row gap-5 cursor-pointer"><img src={bellE} alt="emoji"/>Divulgações</li>
-		<li class="flex flex-row gap-5 cursor-pointer"><img src={configE} alt="emoji"/>Configurações</li>
+		
+		<li class="flex flex-row gap-5 cursor-pointer" on:click={() => goto('/')}>
+		<img src={homeE} alt="emoji"/>Home</li>
+		
+		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/editais')}>
+		<img src={scrollE} alt="emoji"/>Editais</li>
+		
+		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/artigos')}>
+		<img src={booksE} alt="emoji"/>Artigos</li>
+		
+		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/divulgacoes')}>
+		<img src={bellE} alt="emoji"/>Divulgações</li>
+		
+		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/configuracoes')}>
+		<img src={configE} alt="emoji"/>Configurações</li>
 	</ul>
 </div>
 
-	<div class="flex flex-col justify-start items-center content-center w-full content">
+	<div class="flex flex-col justify-start items-center content-center w-full gap-10 content">
 		<slot></slot>
 	</div>
 </div>
@@ -86,10 +100,11 @@ onMount(()=>{
 
 .menuSide{
 	width: 300px;
-	padding: 20px;
+	padding-left: 60px;
 	background: var(--CS10);
-	height: 100dvh;
+	z-index: 99999;
 	font-family: 'Jaro';
+	margin-top: 100px;
 }
 
 .menuSide img{
@@ -98,19 +113,30 @@ onMount(()=>{
 	
 }
 .menuTop{
-	padding:20px;
+	padding-left: 60px;
+	padding-right: 60px;
+	padding-bottom: 10px;
+	padding-top: 30px;
+	position: fixed;
+	z-index: 99999999;
 	background: var(--CS10);
 	font-family: 'Jaro';
 }
+.content{
+
+	margin-top: 100px;
+}
+
 
 .container{
 	width: 100vw;
 	height: 100%;
 	max-width: 2000px;
+	font-family: 'Font6';
 }
 li{
 	transition: .5s;
-	padding: 20px 0px 20px 0px;
+	padding: 15px 0px 15px 0px;
 }
 li:hover{
 	transform: translateX(10px);

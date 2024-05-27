@@ -1,7 +1,7 @@
 <script>
     import Loading from '$shared/Loading.svelte';
     import Error from '$shared/Error.svelte';
-    import Button from '$lib/components/login/Button.svelte'
+    import Button from '$shared/Button.svelte'
 
     export let type;
     export let customText;

@@ -1,5 +1,5 @@
 <script>
-  import "../../app.css";
+  import "$src/app.css";
   import "$lib/fonts/fonts.css";
   import {theme} from '$lib/stores/globalStore';
 
