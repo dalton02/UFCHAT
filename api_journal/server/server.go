@@ -23,6 +23,8 @@ func MainServer(){
 	http.HandleFunc("/", routeChunkArticle)
 	http.HandleFunc("/get", routeGetArticle)
 	http.HandleFunc("/post", routePostArticle)
+	http.HandleFunc("/comment", routePostComment)
+	
 	http.HandleFunc("/sendImage", routePostImage)
 	http.HandleFunc("/favicon.ico", doNothing)
 	
