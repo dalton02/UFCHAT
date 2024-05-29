@@ -6,11 +6,12 @@ import {development} from './types/environment';
 const app = express();
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+	origin: development.SERVER_GATEWAY,
+}));
 
 
-
-app.use('/api',router);
+app.use('/',router);
 
 
 

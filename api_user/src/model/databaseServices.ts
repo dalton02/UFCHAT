@@ -21,9 +21,20 @@ export class UserServices {
     });
   }
 
-  checkUser = async(matricula:number) => {
+  getUserAll = async() =>{
+    const student = await this.students.findAll();
+    return student;
+  }
+
+  getUserById = async(matricula:number) => {
     const student = await this.students.findByPk(matricula);
     return student;
     }
+  updateUser = async(nickname:string,matricula:number) =>{
+    const student = await this.students.findByPk(matricula);
+    if(student==null) throw new Error();
+    student.nickname = nickname;
+    await student.save();
+  }
 
 }

@@ -23,9 +23,20 @@ class UserServices {
                 login: login
             });
         });
-        this.checkUser = (matricula) => __awaiter(this, void 0, void 0, function* () {
+        this.getUserAll = () => __awaiter(this, void 0, void 0, function* () {
+            const student = yield this.students.findAll();
+            return student;
+        });
+        this.getUserById = (matricula) => __awaiter(this, void 0, void 0, function* () {
             const student = yield this.students.findByPk(matricula);
             return student;
+        });
+        this.updateUser = (nickname, matricula) => __awaiter(this, void 0, void 0, function* () {
+            const student = yield this.students.findByPk(matricula);
+            if (student == null)
+                throw new Error();
+            student.nickname = nickname;
+            yield student.save();
         });
         this.sequelize = new databaseCon_1.SequelizeConnection().seque;
         this.students = this.sequelize.define("students", type_1.StudentsAttributes);

@@ -22,34 +22,56 @@ const userController_1 = require("../controllers/userController");
 const databaseServices_1 = require("../model/databaseServices");
 const userC = new userController_1.UserController();
 const userS = new databaseServices_1.UserServices();
-router.post('/', authenticationMid_1.checkForm, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/login', authenticationMid_1.checkForm, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { login, password } = req.body;
     try {
-        //Retriving and selecting data from Sigaa WebSite
-        const cookies = yield userC.getCookiesFromSigaa(); //Gets Cookie from the main page of Sigaa
-        const userPage = yield userC.getInfoFromSigaa(login, password, cookies); //Login the users and retrives HTML page
-        const data = yield userC.getEssentialHtml(userPage); //Get just the user data from the page
-        //Manipulating database now
-        const user = yield userS.checkUser(data.id);
-        if (user == null)
+        const cookies = yield userC.getCookiesFromSigaa();
+        const userPage = yield userC.getInfoFromSigaa(login, password, cookies);
+        const data = yield userC.getEssentialHtml(userPage);
+        const user = yield userS.getUserById(data.id);
+        let status = 200;
+        if (user == null) {
             yield userS.addUser(data.id, data.fullname, login, data.course, login);
-        res.status(200).json({ login: login, id: data.id, fullname: data.fullname, course: data.course, nickname: login });
+            status = 201;
+            console.log("User sign in, status code: " + status);
+        }
+        res.status(status).json({ login: login, id: data.id, fullname: data.fullname, course: data.course, nickname: login });
     }
     catch (err) {
         res.status(404).json({ err: 'Usuário ou senha incorreto(s)' });
     }
 }));
-router.get('/:id', authenticationMid_1.checkForm, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/all', authenticationMid_1.checkForm, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield userS.getUserAll();
+        res.json(user);
+    }
+    catch (err) {
+        res.json({ err: err });
+    }
+}));
+router.get('/getUser/:id', authenticationMid_1.checkForm, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let id = req.params.id;
-    id = id.replace(/'/g, ''); // Importante remover as aspas do id
+    id = id.replace(/'/g, ''); // Remove as aspas do ID
     const parsedId = parseInt(id, 10);
     try {
-        const user = yield userS.checkUser(parsedId);
-        res.json({ login: user.dataValues.login, id: user.dataValues.id, fullname: user.dataValues.fullname,
+        const user = yield userS.getUserById(parsedId);
+        res.json({
+            login: user.dataValues.login, id: user.dataValues.id, fullname: user.dataValues.fullname,
             course: user.dataValues.course, nickname: user.dataValues.nickname
         });
     }
     catch (err) {
         res.json({ err: err });
+    }
+}));
+router.put("/update", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { user_nick, user_id } = req.body;
+        yield userS.updateUser(user_nick, user_id);
+        return res.status(200).json({ message: 'Updated' });
+    }
+    catch (err) {
+        return res.status(500).json({ message: err });
     }
 }));

@@ -28,7 +28,7 @@ class SequelizeConnection {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.seque.authenticate();
-                console.log('Connection has been established successfully.');
+                console.log('Connection has been established successfully in ' + environment_1.development.database + ' with user ' + environment_1.development.username);
             }
             catch (error) {
                 console.error('Unable to connect to the database:', error);

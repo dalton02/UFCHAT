@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.development = void 0;
 const dotenv = __importStar(require("dotenv"));
@@ -42,4 +42,6 @@ exports.development = {
     define: {
         timestamps: false // Remove colunas chatas
     },
+    SERVER_GATEWAY: (_e = process.env.SERVER_GATEWAY) !== null && _e !== void 0 ? _e : '',
+    PORT: (_f = process.env.PORT) !== null && _f !== void 0 ? _f : 0
 };
