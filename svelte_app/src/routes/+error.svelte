@@ -1,4 +1,6 @@
 <script>
+	import "$src/app.css";
+	import "$lib/fonts/fonts.css";
   import {onMount} from 'svelte';
   import {goto} from '$app/navigation';
   import Button from '$shared/Button.svelte';

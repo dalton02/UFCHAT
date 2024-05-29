@@ -1,9 +1,6 @@
 <script>
 import {theme} from '$lib/stores/globalStore';
-
-import "$src/app.css";
-import "$lib/fonts/fonts.css";
-
+import '../app.css';
 </script>
 
 

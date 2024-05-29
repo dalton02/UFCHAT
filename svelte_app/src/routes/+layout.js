@@ -8,13 +8,13 @@ import {devEnvironment} from '$lib/api/keys.js';
 export const load = async({fetch}) =>{
 	console.log("layout.js");
 	const head = {
-		method: 'GET',
+		method: 'POST',
 		credentials: 'include'
 	};
 	const endpoint = devEnvironment.PUBLIC_SERVER_GATEWAY+'/gateway/isAuth';
-	//const response = await fetch(endpoint,head);
-	//console.log(response.ok);
-	//if(!response.ok)
-	//	return {isAuth:false}
+	const response = await fetch(endpoint,head);
+	console.log(response.ok);
+	if(!response.ok)
+		return {isAuth:false}
 	return{isAuth: true}
 }

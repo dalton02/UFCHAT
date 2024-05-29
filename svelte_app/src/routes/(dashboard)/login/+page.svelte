@@ -12,7 +12,7 @@
     import Toaster from '$shared/Toaster.svelte';
     import { Confetti } from "svelte-confetti"
     import Background from '$shared/Background.svelte';
-  
+    import {goto} from '$app/navigation';
     let loginElement;
     let loadingElement;
     let welcomeElement;
@@ -47,6 +47,8 @@
         return;
       }
 
+      goto('/',{invalidateAll:true});
+      
       }
 	  	
       catch(err){

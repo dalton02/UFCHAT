@@ -1,8 +1,6 @@
 <script>
 import "$src/app.css";
 import "$lib/fonts/fonts.css";
-import bookE from '$lib/images/emojis/book.svg';
-import coolE from '$lib/images/emojis/cool.svg';
 import bellE from '$lib/images/emojis/bell.svg';
 import configE from '$lib/images/emojis/config.svg';
 import booksE from '$lib/images/emojis/books.svg';
@@ -10,13 +8,13 @@ import homeE from '$lib/images/emojis/house.svg';
 import scrollE from '$lib/images/emojis/scroll.svg';
 import BarMenu  from '$shared/BarMenu.svelte';
 import Button from '$shared/Button.svelte';
-
+import Logo from '$image/logo.svg';
 import {onMount} from 'svelte';
 import {goto} from '$app/navigation';
 
 let menu;
 export let data
-const isAuth = false;
+const isAuth = data.isAuth;
 
 
 function showMenu(){
@@ -30,7 +28,6 @@ function exitMenu(){
 function handleSize(){
 	if(window.innerWidth>800){
 		menu.style.display = "flex";
-		console.log(menu);
 	}
 	else{
 		menu.style.display="";
@@ -48,29 +45,30 @@ onMount(()=>{
 
 <div class="container">
 
-<div class="flex flex-row justify-between w-full menuTop">
-	<div class="flex flex-row gap-5">
+<header class="flex flex-row justify-between items-center content-center relative w-full menuTop">
+	<div class="flex flex-row items-center content-center gap-2">
 	<BarMenu handleClick={showMenu}/>
-	<img alt="Logo here"/>
+	<img src={Logo} alt="Logo here"/>
+	<h1 class="text-3xl m-0">ConectaUFCA</h1>
 	</div>
-	<div class="flex flex-row">
+	<div class="flex flex-row justify-center items-center content-center">
 
 	{#if isAuth}
-	<Button value="Nova Postagem" handleClick={()=>{goto('/post')}}/>
+	<Button value="Nova Postagem" handleClick={()=>{goto('/publicar')}}/>
 	{:else}
 	<Button value="Faça seu login" handleClick={()=>{goto('/login')}}/>
 	{/if}
 
 	</div>
-</div>
+</header>
 
 <div class="flex flex-row">
-<div class="flex flex-col p:hidden p:absolute menuSide" bind:this={menu}>
+<div class="flex flex-col p:fixed p:hidden  menuSide " bind:this={menu}>
 	<div class="flex flex-row item-center justify-between">
-		<h1 class="text-3xl">ConectaUFCA</h1>
+		<h1 class="text-2xl">Menu</h1>
 		<i class="hidden p:flex cursor-pointer" on:click={exitMenu}>x</i>
 	</div>
-	<ul class="flex flex-col mt-5">
+	<ul class="flex flex-col">
 		
 		<li class="flex flex-row gap-5 cursor-pointer" on:click={() => goto('/')}>
 		<img src={homeE} alt="emoji"/>Home</li>
@@ -89,7 +87,7 @@ onMount(()=>{
 	</ul>
 </div>
 
-	<div class="flex flex-col justify-start items-center content-center w-full gap-10 content">
+	<div class="flex flex-col justify-start items-center content-center w-full m-0 p-0 gap-10 content">
 		<slot></slot>
 	</div>
 </div>
@@ -99,12 +97,16 @@ onMount(()=>{
 <style>
 
 .menuSide{
-	width: 300px;
+	width: 320px;
 	padding-left: 60px;
+	padding-right: 10px;
+	top: 0;
 	background: var(--CS10);
 	z-index: 99999;
 	font-family: 'Jaro';
-	margin-top: 100px;
+	height: 100dvh;
+	margin-top: 80px;
+
 }
 
 .menuSide img{
@@ -115,15 +117,19 @@ onMount(()=>{
 .menuTop{
 	padding-left: 60px;
 	padding-right: 60px;
-	padding-bottom: 10px;
-	padding-top: 30px;
+	height: 80px;
 	position: fixed;
-	z-index: 99999999;
+	z-index: 9999999;
+	max-width: 2000px;
 	background: var(--CS10);
 	font-family: 'Jaro';
 }
+.menuTop img{
+	position: relative;
+	height: 44px;
+	margin-top: 10px;
+}
 .content{
-
 	margin-top: 100px;
 }
 

@@ -28,9 +28,9 @@
 	"type": "module",
 	"dependencies": {
 		"express": "^4.19.2",
+		"marked": "^12.0.2",
 		"socket.io": "^4.7.5",
 		"socket.io-client": "^4.7.5",
-		"socket.io-parser": "^4.2.4",
-		"svelte-cookie": "^1.0.1"
+		"socket.io-parser": "^4.2.4"
 	}
 }
