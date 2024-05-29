@@ -27,14 +27,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.devEnvironment = void 0;
+exports.ROUTES = exports.devEnvironment = void 0;
 const dotenv = __importStar(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const envPath = path_1.default.resolve(__dirname, '../../.env');
 dotenv.config({ path: envPath });
 exports.devEnvironment = {
-    TOKENSECRET: (_a = process.env.TOKENSECRET) !== null && _a !== void 0 ? _a : '',
-    SERVERPORT: (_b = process.env.SERVERPORT) !== null && _b !== void 0 ? _b : 0,
-    TOKENACCESSEXPIRES: (_c = process.env.TOKENACCESSEXPIRES) !== null && _c !== void 0 ? _c : '10m',
-    TOKENREFRESHEXPIRES: (_d = process.env.TOKENREFRESHEXPIRES) !== null && _d !== void 0 ? _d : '1h'
+    ACCESS_TOKEN_SECRET: (_a = process.env.ACCESS_TOKEN_SECRET) !== null && _a !== void 0 ? _a : '',
+    REFRESH_TOKEN_SECRET: (_b = process.env.REFRESH_TOKEN_SECRET) !== null && _b !== void 0 ? _b : '',
+    TOKEN_ACCESS_EXPIRES: '10h',
+    TOKEN_REFRESH_EXPIRES: '10h',
+    SERVER_PORT: (_c = process.env.SERVER_PORT) !== null && _c !== void 0 ? _c : 0,
+    SERVER_USER: process.env.SERVER_USER,
+    SERVER_CHAT: process.env.SERVER_CHAT,
+    SERVER_NEWS: process.env.SERVER_NEWS,
+    SERVER_CLIENT: (_d = process.env.SERVER_CLIENT) !== null && _d !== void 0 ? _d : ''
 };
+exports.ROUTES = [
+    {
+        url: 'session',
+        target: process.env.SERVER_USER,
+    },
+    {
+        url: 'chat',
+        target: process.env.SERVER_CHAT,
+    },
+    {
+        url: 'news',
+        target: process.env.SERVER_NEWS,
+    }
+];

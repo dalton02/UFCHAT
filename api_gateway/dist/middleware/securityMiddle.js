@@ -18,36 +18,39 @@ class SecurityMiddle {
         //Caso o refreshToken esteja expirado, o middleware retorna um erro
         this.verifyCookies = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log(req.url);
+                if (req.url == '/session/login') {
+                    console.log("Hard pass");
+                    return next();
+                }
                 const cookies = req.cookies;
-                //Checando se token expirou
-                const myAccess = yield tokenClass.verifyToken(cookies.accessToken);
-                const myRefresh = yield tokenClass.verifyToken(cookies.refreshToken);
-                if (myRefresh.expired === true) {
-                    console.log("Cookies/Token expirados: ");
+                const myAccess = yield tokenClass.verifyToken(cookies.accessToken, 0);
+                const myRefresh = yield tokenClass.verifyToken(cookies.refreshToken, 1);
+                if (myRefresh.expired == true)
                     return res.status(404).json({ message: "Cookies/Token expirados" });
-                }
-                //Refresh Token ainda está vivo, fazemos requerimento para outro accesstoken
-                const request = {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                };
-                let response = yield fetch(`http:localhost:4000/api/login/'${myRefresh.data.id}'`, request);
-                if (!response.ok) {
-                    console.log('\nUsuario não existe');
-                    return res.status(404).json({ error: "User not found" });
-                }
-                let getData = yield response.json();
+                const getData = myAccess.data;
                 const newAccessToken = yield tokenClass.generateAccessToken(getData.login, getData.fullname, getData.id, getData.nickname, getData.course);
                 const newRefreshToken = yield tokenClass.generateRefreshToken(getData.id);
-                res.cookie('accessToken', newAccessToken, { maxAge: 3600000, httpOnly: true, secure: true });
-                res.cookie('refreshToken', newRefreshToken, { maxAge: 3600000, httpOnly: true, secure: true });
-                const fowardData = yield tokenClass.verifyToken(newAccessToken);
-                req.body = fowardData.data;
-                next();
+                res.cookie('accessToken', newAccessToken, { maxAge: 99999999999, path: '/', httpOnly: true, secure: true, sameSite: 'none' });
+                res.cookie('refreshToken', newRefreshToken, { maxAge: 99999999999, path: '/', httpOnly: true, secure: true, sameSite: 'none' });
+                const fowardData = yield tokenClass.verifyToken(newAccessToken, 0);
+                req.body = {
+                    data: req.body,
+                    cookies: fowardData.data
+                };
+                console.log("All good to past middleware");
+                if (req.url == '/gateway/isAuth')
+                    return res.status(200).send();
+                return next();
             }
             catch (err) {
-                return res.status(401).json({ message: "Cookies/Token expirados" });
+                console.log("Rejected");
+                return res.status(404).json({ message: "Cookies/Token expirados" });
             }
+        });
+        this.seekInfo = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
+            next();
         });
     }
 }

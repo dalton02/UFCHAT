@@ -12,19 +12,16 @@ export class SecurityMiddle{
 	verifyCookies = async (req: Request,res: Response,next: NextFunction) => {
 
 		try{
-		console.log(req.url);
-		if(req.url=='/session/login'){
-			console.log("Hard pass");
-			return next();
-		}
+	
 
+		if(req.url=='/session/login') return next();
+	
 		const cookies = req.cookies;
-    	//Checando se token expirou	
-		const myAccess = await tokenClass.verifyToken(cookies.accessToken,0);
+    	
+    	const myAccess = await tokenClass.verifyToken(cookies.accessToken,0);
 		const myRefresh = await tokenClass.verifyToken(cookies.refreshToken,1);
-		
-		if(myRefresh.expired===true)   return res.status(404).json({message:"Cookies/Token expirados"});
-		
+		console.log(myAccess);
+		if(myRefresh.expired==true)   return res.status(404).json({message:"Cookies/Token expirados"});
 		const getData = myAccess.data;
 		const newAccessToken = await tokenClass.generateAccessToken(getData.login,getData.fullname,getData.id,getData.nickname,getData.course);
     	const newRefreshToken = await tokenClass.generateRefreshToken(getData.id);
@@ -32,13 +29,17 @@ export class SecurityMiddle{
 		res.cookie('accessToken',newAccessToken,{maxAge:99999999999,path:'/',httpOnly:true,secure:true,sameSite:'none'});
 		res.cookie('refreshToken',newRefreshToken,{maxAge:99999999999,path:'/',httpOnly:true,secure:true,sameSite:'none'});
 	    
-		const fowardData = await tokenClass.verifyToken(newAccessToken,0) as {expired: boolean; data: any};
+		let fowardData = await tokenClass.verifyToken(newAccessToken,0) as {expired: boolean; data: any};
+	
+		fowardData.data.id = fowardData.data.id.replace(/'/g,'');
+		fowardData.data.id = parseInt(fowardData.data.id);
+		
 		req.body = {
 			data: req.body,
 			cookies: fowardData.data
 		}
-		
-		console.log("All good to past middleware");
+
+		console.log(req.body);
 	
 		if(req.url =='/gateway/isAuth')	return res.status(200).send();
 		
@@ -54,9 +55,5 @@ export class SecurityMiddle{
 
 	}
 
-	seekInfo = async(req: Request, res: Response, next:NextFunction) =>{
-		console.log(req.body);
-		next();
-	}
 
 }

@@ -7,8 +7,8 @@ dotenv.config({path: envPath});
 export const devEnvironment = {
 		ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET ?? '',
 		REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET ?? '',
-		TOKEN_ACCESS_EXPIRES: '10m',
-		TOKEN_REFRESH_EXPIRES: '1h',
+		TOKEN_ACCESS_EXPIRES: '10h',
+		TOKEN_REFRESH_EXPIRES: '10h',
 		SERVER_PORT: process.env.SERVER_PORT ?? 0,
 		SERVER_USER: process.env.SERVER_USER,
 		SERVER_CHAT: process.env.SERVER_CHAT,
