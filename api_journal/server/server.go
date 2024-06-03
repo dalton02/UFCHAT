@@ -22,12 +22,13 @@ func MainServer(){
 
 	http.HandleFunc("/", routeChunkArticle)
 	http.HandleFunc("/get", routeGetArticle)
+	http.HandleFunc("/postReactionStatus", routePostReactionStatus)
 	http.HandleFunc("/post", routePostArticle)
-	http.HandleFunc("/comment", routePostComment)
-	
+	http.HandleFunc("/react", routePostReaction)
+	http.HandleFunc("/comment", routePostComment)	
 	http.HandleFunc("/sendImage", routePostImage)
-	http.HandleFunc("/favicon.ico", doNothing)
 	
+	http.HandleFunc("/favicon.ico", doNothing)
 
 	corsHandler := cors.Default().Handler(http.DefaultServeMux)
 	err := http.ListenAndServe(":4020", corsHandler)

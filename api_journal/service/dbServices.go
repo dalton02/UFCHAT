@@ -16,6 +16,12 @@ type Comment struct {
 	Send_at        string    `json:"send_at"`
 }
 
+type Reaction struct{
+	Reaction_type int `json:"reaction_type"`
+	User_id        int       `json:"user_id"`
+	Article_id 	int 	`json:"article_id"`
+}
+
 type Article struct {
 	Id         int       `json:"id"`
 	Title      string    `json:"title"`
@@ -29,6 +35,29 @@ type Article struct {
 	Comments   []Comment `json:"comments"`
 }
 
+func GetReactionStatus(db *sql.DB,user_id int, article_id int) (Reaction,error){
+	var reaction Reaction
+	rows,err := db.Query("SELECT reaction_type from reaction_by_user WHERE user_id=$1 AND article_id=$2",user_id,article_id)
+	if(err!=nil){
+		fmt.Println("Erro na query: ",err)
+		return reaction,err
+	}
+	defer rows.Close()
+
+	for !rows.Next(){
+		err = fmt.Errorf("Nada encontrado")
+		return reaction,err
+	}
+
+	err = rows.Scan(&reaction.Reaction_type)
+
+	if (err!=nil){
+		fmt.Println("Erro no scan: ",err)
+		return reaction,err
+	}
+
+	return reaction,nil
+}
 
 func GetArticle(db *sql.DB,id int) (Article,error){
 	var article Article
@@ -66,8 +95,10 @@ GROUP BY a.id, a.title, a.content, a.author_id, a.tags, a.send_at,r.fire_react, 
 		return article,err
 	}
         
-    if err := rows.Scan(&comments,&article.Id,&article.Title, &article.Content, &article.Author_id,
-    &article.Tags,&article.Send_at,&article.Fire_react,&article.Heart_react,&article.Like_react); err != nil {
+    err = rows.Scan(&comments,&article.Id,&article.Title, &article.Content, &article.Author_id,
+    &article.Tags,&article.Send_at,&article.Fire_react,&article.Heart_react,&article.Like_react)
+    
+    if (err != nil){
     		fmt.Println("Erro ao escanear linha:", err)
     		return article,err
     }
@@ -219,6 +250,18 @@ func WriteComment(db *sql.DB,article_id int,user_id int,content string,parent_co
 	
 	fmt.Println("Inserido com sucesso")
 	return nil
+}
+
+func ReactionPost(db *sql.DB, article_id int,user_id int, reaction_type int) (error){
+	result,err := db.Exec("INSERT INTO reaction_by_user(article_id,user_id,reaction_type) VALUES($1,$2,$3)",article_id,user_id,reaction_type)
+	if(err!=nil){
+		fmt.Println("Erro na inserção da imagem: ",err)
+		return err
+	}
+	rows,_ := result.RowsAffected()
+	fmt.Println(rows)
+	return nil
+
 }
 
 func SaveImage(db*sql.DB,url string)(error){

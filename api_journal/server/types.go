@@ -8,10 +8,11 @@ type MessageResponse struct{
 }
 
 type ArticlePost struct{
-	Title string
-	Content string
-	Author_id int
-	Tags []string
+	Article_id int `json:"article_id"`
+	Title string `json:"title"`
+	Content string `json:"content"`
+	Author_id int `json:"author_id"`
+	Tags []string `json:"tags"`
 }
 
 type Comment struct {
@@ -21,6 +22,12 @@ type Comment struct {
 	Content       string    `json:"content"`
 	Parent_comment int       `json:"parent_comment"`
 	Send_at        string    `json:"send_at"`
+}
+
+type Reaction struct{
+	User_id int `json:"user_id"`
+	Article_id int `json:"article_id"`
+	Reaction_type int `json:"reaction_type"`
 }
 
 type Cookies struct{
@@ -34,4 +41,19 @@ type Cookies struct{
 type RequestComment struct{
 	Cookies Cookies `json:"cookies"`
 	Data Comment `json:"data"`
+}
+
+type RequestReaction struct{
+	Cookies Cookies `json:"cookies"`
+	Data Reaction `json:"data"`
+}
+
+type RequestArticle struct{
+	Cookies Cookies `json:"cookies"`
+	Data ArticlePost `json:"data"`
+}
+
+type RequestReactionStatus struct{
+	Cookies Cookies `json:"cookies"`
+	Data Reaction `json:"data"`
 }
