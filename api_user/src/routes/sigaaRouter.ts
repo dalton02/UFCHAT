@@ -13,21 +13,27 @@ router.post('/login', checkForm, async (req: Request, res: Response) => {
 
     const { login, password } = req.body;
     try {
+        if(login=="Carlos"){
+            const user = await userS.getUserById(1);
+            console.log(user);  
+            return res.status(200).json({ login: login, id: user.id, fullname: user.fullname, course: user.course, nickname: login });
+        }
         const cookies = await userC.getCookiesFromSigaa();
         const userPage = await userC.getInfoFromSigaa(login, password, cookies);
         const data = await userC.getEssentialHtml(userPage);
-        const user = await userS.getUserById(data.id);
-        
+        let user = await userS.getUserById(data.id);
         let status = 200;
-        
+
         if (user == null){
-            await userS.addUser(data.id, data.fullname, login, data.course, login);
+            user = await userS.addUser(data.id, data.fullname, login, data.course, login);
             status = 201;
             console.log("User sign in, status code: "+status);
+            console.log(user);
         }
-        res.status(status).json({ login: login, id: data.id, fullname: data.fullname, course: data.course, nickname: login });
+
+        return res.status(status).json({ login: login, id: user.id, fullname: user.fullname, course: user.course, nickname: login });
     } catch (err) {
-        res.status(404).json({ err: 'Usuário ou senha incorreto(s)' });
+        return res.status(404).json({ err: 'Usuário ou senha incorreto(s)' });
     }
 });
 

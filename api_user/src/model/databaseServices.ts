@@ -19,6 +19,7 @@ export class UserServices {
       course: curso,
       login: login
     });
+    return student;
   }
 
   getUserAll = async() =>{

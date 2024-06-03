@@ -22,6 +22,7 @@ class UserServices {
                 course: curso,
                 login: login
             });
+            return student;
         });
         this.getUserAll = () => __awaiter(this, void 0, void 0, function* () {
             const student = yield this.students.findAll();
