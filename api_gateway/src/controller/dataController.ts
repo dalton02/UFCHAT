@@ -7,18 +7,18 @@ import axios from "axios";
 export class DataController{
 
 	redirect = async (url: string,api: string,req: Request,res: Response) =>{
-	
+		console.log(url);
 	    if(!ROUTES.some(route=> route.url == url)){
 			console.log("Is no match");
-			return res.status(404).send();
+			throw new Error;
 		}
 
-		const route = ROUTES.filter(route => route.url == url);
+		const route = ROUTES.find(route => route.url == url);
 
     	try{
 			let config = {
         		method: req.method,
-        		url:  `${route[0].target}${api}`,
+        		url:  `${route!.target}${api}`,
         		data: req.body,
         		headers: {
             		'Content-Type': req.headers['content-type']

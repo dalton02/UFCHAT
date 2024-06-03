@@ -3,7 +3,7 @@ import cors from'cors';
 import {scryptSync,randomBytes} from'crypto';
 import jwt from'jsonwebtoken'; //Generate Tokens
 import cookiesParser from'cookie-parser';
-import {gatewayRouter} from'./routes/gatewayRoute';
+import gatewayRouter from'./routes/gatewayRoute';
 
 import {devEnvironment} from './types/environment';
 
@@ -11,7 +11,7 @@ const app = express();
 
 const corsOptions = {
   origin: [devEnvironment.SERVER_CLIENT,'http://localhost:7000','http://localhost:4173',
-  'http://localhost:3000','http://0.0.0.0:3000'],
+  'http://localhost:3000','http://0.0.0.0:3000','https://localhost:7000'],
   credentials: true 
 };
 

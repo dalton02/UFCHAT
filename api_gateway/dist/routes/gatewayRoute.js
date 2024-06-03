@@ -12,46 +12,78 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gatewayRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const multer_1 = __importDefault(require("multer"));
+const form_data_1 = __importDefault(require("form-data"));
 const tokenController_1 = require("../controller/tokenController");
+const dataController_1 = require("../controller/dataController");
 const securityMiddle_1 = require("../middleware/securityMiddle");
 const environment_1 = require("../types/environment");
 const type_1 = require("../types/type");
 const gatewayRouter = express_1.default.Router();
-exports.gatewayRouter = gatewayRouter;
 const tokenClass = new tokenController_1.TokenController();
 const security = new securityMiddle_1.SecurityMiddle();
-//gatewayRouter.use(security.verifyCookies);
-const storage = multer_1.default.memoryStorage();
+const dataClass = new dataController_1.DataController();
+const storage = multer_1.default.memoryStorage(); // Armazena a imagem em memória temporariamente
 const upload = (0, multer_1.default)({ storage: storage });
-gatewayRouter.all("/:url/*", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+gatewayRouter.post("/:url/sendImage", upload.single('image'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { url } = req.params;
+    if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+    }
+    try {
+        const cookies = yield security.getCookies(req);
+        let formData = new form_data_1.default();
+        const route = environment_1.ROUTES.find(route => route.url == url);
+        if (!route)
+            return res.status(404).json({ message: 'Route not found' });
+        formData.append('image', Buffer.from(req.file.buffer), {
+            filename: req.file.originalname,
+            contentType: req.file.mimetype,
+        });
+        formData.append('cookies', JSON.stringify(cookies));
+        const response = yield axios_1.default.post(route.target + '/sendImage', formData, {
+            headers: Object.assign({}, formData.getHeaders())
+        });
+        res.status(response.status).json(response.data);
+    }
+    catch (error) {
+        console.error('Error forwarding the image:', error);
+        res.status(500).json({ message: 'Error forwarding the image' });
+    }
+}));
+gatewayRouter.get("/:url/*", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { url } = req.params;
+    let api = (req.url).replace(/^\/[^\/]+/, '');
+    try {
+        const response = yield dataClass.redirect(url, api, req, res);
+        const getData = response.data;
+        console.log(getData);
+        return res.status(response.status).json(getData);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
+gatewayRouter.all("/:url/*", security.verifyCookies, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { url } = req.params;
     let api = (req.url).replace(/^\/[^\/]+/, '');
-    console.log(req.body);
-    if (!environment_1.ROUTES.some(route => route.url == url)) {
-        console.log("Is no match");
-        return res.status(404).send();
-    }
-    const route = environment_1.ROUTES.filter(route => route.url == url);
     try {
-        let config = {
-            method: req.method,
-            url: `${route[0].target}${api}`,
+        const cookies = yield security.getCookies(req);
+        req.body = {
             data: req.body,
-            headers: {
-                'Content-Type': req.headers['content-type']
-            },
+            cookies: cookies
         };
-        console.log(config);
-        const response = yield axios_1.default.request(config);
+        console.log(req.body);
+        const response = yield dataClass.redirect(url, api, req, res);
         const getData = response.data;
+        console.log(getData);
         //Refatorar rotas multiplexadas depois...
         if (url == 'session' && api == '/login') {
             if (response.status == 201) {
                 console.log("New user in production....");
+                console.log(getData);
                 let newConfig = {
                     method: 'POST',
                     url: environment_1.ROUTES[1].target + "/addUserInChat",
@@ -78,3 +110,4 @@ gatewayRouter.all("/:url/*", (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(500).json(err);
     }
 }));
+exports.default = gatewayRouter;
