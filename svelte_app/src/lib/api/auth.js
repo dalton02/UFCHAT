@@ -57,3 +57,19 @@ export const changeNickStudent = async (nick) =>{
 	const json = await response.json();
 	return response;
 }
+export const submitImage = async(formData)=> {
+
+        const response = await fetch(devEnvironment.PUBLIC_SERVER_GATEWAY+'/session/sendImage',{
+        	method: 'POST',
+            body: formData,
+            credentials: 'include'
+        })
+        
+        const json = await response.json();
+        
+        if(!response.ok){
+        	console.log(json.Message);
+        	return;
+        }
+
+}

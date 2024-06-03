@@ -1,18 +1,16 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // Disable SSL certificate validatio
 
 import {devEnvironment} from '$lib/api/keys.js';
 
-
-
 export const load = async ({fetch,params})=>{
-	console.log(params);
+
 	const title = params.artigoId.replace('-',' ');
-	console.log(title);
 	let ENDPOINT = devEnvironment.PUBLIC_SERVER_GATEWAY+'/news/get?title='+title/////////;
 	let HEADERS = {
 		method: 'GET',
 	}
 	let response = await fetch(ENDPOINT,HEADERS);
-	let data = await response.json();
+	let dataArticle = await response.json();
 	if(!response.ok){
 		throw new Error();
 	}
@@ -25,21 +23,46 @@ export const load = async ({fetch,params})=>{
 	let responseUser = await fetch(ENDPOINTUSER,HEADERSUSER);
 	let dataUser = await responseUser.json();
 
+	const fullname = dataUser.find( user => user.id==dataArticle.author_id).fullname;
+	const user = dataUser.find( user => user.id==dataArticle.author_id).login;
+	dataArticle.author_name = fullname;	
+	dataArticle.author_user = user;
 	
-
-
-	const username = dataUser.find( user => user.id==data.author_id).nickname;
-	data.author_name = username;	
-	
-	for(let i=0;i<data.comments.length;i++){
-		data.comments[i].author_name = dataUser.find( user => user.id==data.comments[i].user_id).nickname;
+	for(let i=0;i<dataArticle.comments.length;i++){
+		const userComment = dataUser.find( user => user.id==dataArticle.comments[i].user_id);
+		dataArticle.comments[i].author_name = userComment.fullname;
+		dataArticle.comments[i].author_user = userComment.login;
 	}
 
-	const articleUser = data;
+	for(let i=0;i<dataArticle.comments.length;i++){
+		let childs = dataArticle.comments.filter(
+		comment => comment.parent_comment==dataArticle.comments[i].id);
+		if (typeof childs !== 'undefined')	dataArticle.comments[i].childs = childs;
+	}
 
+	dataArticle.comments = dataArticle.comments.filter(
+		comment => comment.parent_comment == 0
+	);
 
+	let ENDPOINTSTATUS = devEnvironment.PUBLIC_SERVER_GATEWAY+'/news/postReactionStatus';
+	let HEADERSSTATUS = {
+		method: 'POST',
+		body: JSON.stringify({
+			article_id: dataArticle.id
+		}),
+		credentials: 'include',
+       	headers:{	
+       		'Content-Type':'application/json'
+       	},
+	};
+	const responseStatus = await fetch(ENDPOINTSTATUS,HEADERSSTATUS);
+	if(responseStatus.ok){
+	const jsonStatus = await responseStatus.json();
+	console.log(jsonStatus);
+	dataArticle.reaction_type = jsonStatus.reaction_type;
+	}
 
-	return {article:articleUser}
+	return {article:dataArticle}
 
 
 }

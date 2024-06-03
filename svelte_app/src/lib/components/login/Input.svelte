@@ -20,7 +20,7 @@
 
 
   <div class="customInput">
-  <input class="focus:outline-none focus:shadow-outline text-xl" style={`text-align: ${textAlign};text-indent: ${textIndent};`}
+  <input class="focus:outline-none focus:shadow-outline text-lg" style={`text-align: ${textAlign};text-indent: ${textIndent};`}
     type={type}  placeholder={placeholder} required 
     bind:this={getText}
   />
@@ -31,15 +31,15 @@
 
 <style>
   .customInput{
-    width: 100%;
-    height: 45px;
+    width: 80%;
+    height: 40px;
     position: relative;
   }
   .customInput label{
     position: absolute;
     left: 0;
     margin-left: 10px;
-    transform: translate(0,11px);
+    transform: translate(0,10px);
   }
   input{
     width: 100%;

@@ -21,7 +21,7 @@
 .wave {
     background: var(--CD);
     border-radius: 1000% 1000% 0 0;
-    position: absolute;
+    position: fixed;
     width: 200%;
     height: 8em;
     animation: wave 5s -3s linear infinite;

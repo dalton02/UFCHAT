@@ -3,7 +3,7 @@
 export let handleClick;
 
 </script>
-<div class="flex flex-col justify-between bar cursor-pointer hidden p:flex" on:click={handleClick}>
+<div class="flex flex-col p-2 justify-between bar cursor-pointer hidden p:flex" on:click={handleClick}>
 <span></span>
 <span></span>
 <span></span>
@@ -12,8 +12,9 @@ export let handleClick;
 <style>
 
 .bar{
-	width: 24px;
-	height: 20px;
+	width: 40px;
+	height: 36px;
+
 }
 span{
 	width: 100%;

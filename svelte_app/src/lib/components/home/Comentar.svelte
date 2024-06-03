@@ -8,12 +8,13 @@ import {invalidateAll,goto} from '$app/navigation';
 let text='';
 export let currentArticle;
 export let parentId;
-console.log('a');
+
+
 const post = async ()=> {
 	try{
 		await submitComment(currentArticle,text,parentId);
 		text='';
-		window.location.href = $page.url;
+		await invalidateAll();
 
 	}
 	catch(err){
@@ -23,14 +24,17 @@ const post = async ()=> {
 
 </script>
 
-<div class="flex flex-col gap-2">
+<div class="flex flex-col gap-2 w-full">
 <div class="flex flex-row gap-2 w-full">
-		<img alt="user" src={User}/>
+		{#if parentId == 0}
 		<textarea class="w-full text-base" placeholder="Escreva o que pensa do tema" resize='none' bind:value={text}/>
+		{:else}
+		<textarea class="w-full text-base parentComment" placeholder="Escreva o que pensa do tema" resize='none' bind:value={text}/>
+		{/if}
+		
 </div>
 <div class="container flex flex-row gap-5 justify-end w-full">
 <button class="b1" on:click={post}>Comentar</button>
-<button class="b2">Preview</button>
 </div>
 </div>
 
@@ -68,8 +72,11 @@ const post = async ()=> {
 		background: var(--CTH);
 		border: 1px solid var(--CIS2);
 		padding: 10px;
-		height: 200px;
+		height: 150px;
 		border-radius: .5rem;
+	}
+	.parentComment{
+		height: 100px;
 	}
 	textarea:focus-visible{
 		border: 1px solid var(--CIS2);

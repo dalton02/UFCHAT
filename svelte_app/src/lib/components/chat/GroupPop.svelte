@@ -36,7 +36,7 @@ class:selected={idChat == $currentIdChat}>
 	</div>
 	<div class="flex flex-col ml-2 w-full">
 	<div class="flex flex-row justify-between w-full">
-	<h3 class="text-xl np:text-sm">{group}</h3>
+	<h3 class="text-xl">{group}</h3>
 	<h5 class="text-.8rem">{dateFormat}</h5>
 	</div>
 	<h4 class="text-sm">{lastMessage}</h4>
@@ -47,9 +47,8 @@ class:selected={idChat == $currentIdChat}>
 <style>
 .pop{
 	height: 100%;
-	background: inherit;
 	overflow: hidden;
-	color: var(--colorInverted);
+	color: var(--CIS10);
 	font-family: 'Lato';
 	position: relative;
 	width: 100%;
@@ -80,16 +79,16 @@ margin: 0;
 	width: 15%;
 	max-height: 100%;
 	aspect-ratio: 1/1;
+	background: var(--CIS10);
 	border-radius: 100%;
 	overflow: hidden;
 }
 .pop img{
 	object-fit: contain;
-	aspect-ratio: 3/3;
 	width: 100%;	
-	transform: translateY(2px);
+	transform: translateY(0px);
 }
 .selected{
-	background-color: rgba(0,0,0,.05);
+	background-color: var(--CIS-5);
 }
 </style>

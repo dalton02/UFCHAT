@@ -1,9 +1,9 @@
 <script> 
-	import Input from '$lib/components/Chat/Input.svelte';
-	import GroupPop from '$lib/components/Chat/GroupPop.svelte';
+	import Input from '$lib/components/chat/Input.svelte';
+	import GroupPop from '$lib/components/chat/GroupPop.svelte';
 	import user from '$lib/images/user.svg';	
 	import {currentIdChat,chat} from '$lib/stores/chatStore.js';
-	import InfoChat from '$lib/components/Chat/InfoChat.svelte';
+	import InfoChat from '$lib/components/chat/InfoChat.svelte';
 
 </script>
 
@@ -37,14 +37,12 @@
 	.containerChat{
 		width: 100%;
 		height: 100%;
-		background-color: var(--colorScheme);
+		background-color: var(--CS10);
 		overflow: hidden;
-		color: var(--colorInverted);
 		font-family: 'Jaro', sans-serif;
-  		box-shadow: inset -10px 0px 80px 0px rgba(0, 0, 0, 0.16);
 	}
 	.containerInfo{
-		height: 30%;
+		height: 200px;
 		width: 100%;
 	}
 	.groups{	
@@ -55,7 +53,7 @@
     width: 7px;
   	}
   	.groups::-webkit-scrollbar-thumb {
-    background-color: var(--color1);
+    background-color: var(--CD2);
     border-radius: 10px;
   	}
   	.groups::-webkit-scrollbar-button:single-button {

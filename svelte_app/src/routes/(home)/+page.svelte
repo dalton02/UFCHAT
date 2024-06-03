@@ -5,7 +5,8 @@ import Heart from '$image/emojis/redHeart.svg';
 import Like from '$image/emojis/like.svg';
 import Comment from '$image/emojis/comment.svg';
 import {goto} from '$app/navigation';
-import {formatData} from '$lib/logic/util.js'
+import {formatData,nameNormalize} from '$lib/logic/util.js';
+import {devEnvironment} from '$lib/api/keys.js';
 export let data;
 console.log(data);
 
@@ -15,14 +16,15 @@ console.log(data);
 {#each data.articles as article}
 	
 
-	<div class ="flex flex-col justify-start items-center content-center showArticle w-10/12" 
+	<div class ="flex flex-col justify-start items-center content-center showArticle 
+	p-8 py-4 pr-0 w-10/12 p:px-4 gap-2" 
 	on:click={goto(`/postagem/${article.title}`)}>
 	
 	<div class="flex flex-row w-full gap-2 about">
-	<img alt="user" src={User}/>
+	<img alt="user" src={devEnvironment.PUBLIC_STATIC_USER+'/files/'+article.author_user+'.webp'}/>
 	<div class="flex flex-col">
-	<span class="text-base font-bold">{article.author_name}</span>
-	<span class="text-xs font-thin">{formatData(article.send_at)}</span>
+	<span class="text-base font-normal">{nameNormalize(article.author_name)}</span>
+	<span class="text-xs font-thin date">{formatData(article.send_at,2)}</span>
 	</div>
 	</div>
 
@@ -60,13 +62,15 @@ console.log(data);
 
 <style>
 	.showArticle{
-		padding: 30px;
 		background:var(--CIS-5);
 		backdrop-filter: blur(2px);
 		border-radius: .5rem;
 		font-family: 'Rubik';
 		cursor: pointer;
 		border: 1px solid var(--CIS2);
+	}
+	.date{
+		color:var(--CIS8);
 	}
 	.showArticle h1{
 		text-align: left;
@@ -77,9 +81,6 @@ console.log(data);
 	 	aspect-ratio: 1/1;
 	 	background: white;
 	 	border-radius: 100%;
-	}
-	.context{
-		margin-left: 100px;
 	}
 	.context img{
 		width: 1.2rem;

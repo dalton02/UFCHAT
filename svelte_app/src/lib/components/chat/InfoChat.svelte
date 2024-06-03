@@ -1,7 +1,6 @@
 <script>
 	import lupa from '$lib/images/search.svg';
-	import Input from '$lib/components/Chat/Input.svelte';
-	import NavSwitch from '$lib/components/NavSwitch.svelte';
+	import Input from '$lib/components/chat/Input.svelte';
 </script>
 
 <div class="flex flex-col gap-5 justify-center headerChat relative">
@@ -40,8 +39,8 @@
 		height: 100%;
 		width: 100%;
 		font-weight: 0;
-		background: var(--color4);
-		color:var(--colorScheme);
+		background: var(--CIS10);
+		color:var(--CS10);
 	}
   
   img{
@@ -64,7 +63,7 @@
   svg{
     	position: absolute;
     	width: 100%;
-    	fill: var(--color4);
+    	fill: var(--CIS10);
     	animation: 4.5s wave infinite linear;
     }
     #wave2{

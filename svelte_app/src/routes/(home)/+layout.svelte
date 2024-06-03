@@ -6,6 +6,7 @@ import configE from '$lib/images/emojis/config.svg';
 import booksE from '$lib/images/emojis/books.svg';
 import homeE from '$lib/images/emojis/house.svg';
 import scrollE from '$lib/images/emojis/scroll.svg';
+import chatE from '$lib/images/chatIcon.svg';
 import BarMenu  from '$shared/BarMenu.svelte';
 import Button from '$shared/Button.svelte';
 import Logo from '$image/logo.svg';
@@ -28,9 +29,12 @@ function exitMenu(){
 function handleSize(){
 	if(window.innerWidth>800){
 		menu.style.display = "flex";
+		
+		menu.style.zIndex="99";
 	}
 	else{
 		menu.style.display="";
+		menu.style.zIndex="999999999";
 	}
 }
 
@@ -45,13 +49,14 @@ onMount(()=>{
 
 <div class="container">
 
-<header class="flex flex-row justify-between items-center content-center relative w-full menuTop">
+<header class="flex flex-row flex-wrap justify-between content-center fixed
+w-full menuTop h-24 pl-16 pr-16 p:h-32 p:p-0 p:justify-center p:gap-4">
 	<div class="flex flex-row items-center content-center gap-2">
 	<BarMenu handleClick={showMenu}/>
 	<img src={Logo} alt="Logo here"/>
 	<h1 class="text-3xl m-0">ConectaUFCA</h1>
 	</div>
-	<div class="flex flex-row justify-center items-center content-center">
+	<div class="flex flex-row p:w-full justify-center items-center content-center">
 
 	{#if isAuth}
 	<Button value="Nova Postagem" handleClick={()=>{goto('/publicar')}}/>
@@ -63,31 +68,29 @@ onMount(()=>{
 </header>
 
 <div class="flex flex-row">
-<div class="flex flex-col p:fixed p:hidden  menuSide " bind:this={menu}>
+<div class="flex flex-col p:fixed p:hidden mt-28 pl-16 pt-4 pr-2 p:pl-4 gap-4  p:m-0 menuSide " bind:this={menu}>
 	<div class="flex flex-row item-center justify-between">
 		<h1 class="text-2xl">Menu</h1>
 		<i class="hidden p:flex cursor-pointer" on:click={exitMenu}>x</i>
 	</div>
-	<ul class="flex flex-col">
+	<ul class="flex flex-col ml-6">
 		
 		<li class="flex flex-row gap-5 cursor-pointer" on:click={() => goto('/')}>
 		<img src={homeE} alt="emoji"/>Home</li>
 		
+		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/chat')}>
+		<img src={chatE} alt="emoji"/>Chat</li>
+		
 		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/editais')}>
 		<img src={scrollE} alt="emoji"/>Editais</li>
 		
-		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/artigos')}>
-		<img src={booksE} alt="emoji"/>Artigos</li>
-		
-		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/divulgacoes')}>
-		<img src={bellE} alt="emoji"/>Divulgações</li>
-		
 		<li class="flex flex-row gap-5 cursor-pointer" on:click={()=>goto('/configuracoes')}>
 		<img src={configE} alt="emoji"/>Configurações</li>
+
 	</ul>
 </div>
 
-	<div class="flex flex-col justify-start items-center content-center w-full m-0 p-0 gap-10 content">
+	<div class="flex flex-col justify-start items-center content-center w-full mt-28 p:mt-36 p-0 gap-10 content">
 		<slot></slot>
 	</div>
 </div>
@@ -97,16 +100,12 @@ onMount(()=>{
 <style>
 
 .menuSide{
-	width: 320px;
-	padding-left: 60px;
-	padding-right: 10px;
+	width: 300px;
 	top: 0;
 	background: var(--CS10);
 	z-index: 99999;
 	font-family: 'Jaro';
 	height: 100dvh;
-	margin-top: 80px;
-
 }
 
 .menuSide img{
@@ -115,24 +114,16 @@ onMount(()=>{
 	
 }
 .menuTop{
-	padding-left: 60px;
-	padding-right: 60px;
-	height: 80px;
-	position: fixed;
 	z-index: 9999999;
 	max-width: 2000px;
-	background: var(--CS10);
 	font-family: 'Jaro';
+	background: var(--CS10);
 }
 .menuTop img{
 	position: relative;
 	height: 44px;
 	margin-top: 10px;
 }
-.content{
-	margin-top: 100px;
-}
-
 
 .container{
 	width: 100vw;

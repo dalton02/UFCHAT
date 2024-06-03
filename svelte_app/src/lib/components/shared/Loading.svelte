@@ -11,9 +11,9 @@
         --speed: 0.6s;
     }
     .loader {
-    width: 20%;
+    width: 17%;
     aspect-ratio: 1/1;
-    border: 14px solid var(--CD);
+    border: 13px solid var(--CD);
     border-bottom-color: var(--CD2);
     border-radius: 100%;
     display: inline-block;
@@ -21,10 +21,12 @@
     animation: var(--speed) linear 0s infinite normal none running rotation;
     }
     
+
     @keyframes rotation {
     0% {
         transform: rotate(0deg);
     }
+    
     100% {
         transform: rotate(360deg);
     }

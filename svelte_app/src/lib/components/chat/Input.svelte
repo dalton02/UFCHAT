@@ -40,7 +40,7 @@
   .customInput{
     width: 100%;
     position: relative;
-    background: inherit;
+    background: none;
   }
 
   span{
@@ -52,10 +52,11 @@
     cursor: pointer;
   }
   span img{
-    max-width: 50%;
-    max-height: 50%;
+    position: relative;
+    width: 18px;
+    transform: translateY(7px);
     object-fit: contain;
-    filter: contrast(0) brightness(100);
+    filter: contrast(var(--BG)) brightness(var(--CT));
   }
   input{
     width: 100%;
@@ -67,34 +68,34 @@
     background: none;
     transition: all .5s;
     padding:1px;
-    color: var(--colorInverted); 
+    color: var(--CS10); 
   }
   input::focus{
       outline: none;
       border: none;
   }
   .normalInput::placeholder{
-    color: rgb(70,70,70); 
+    color: var(--CS10);
   }
   .normalInput:focus{
-    color: rgb(20,20,20); 
+    color: var(--CS10);
     outline: none;
   }
 
 
   .searchInput{
       border-radius: .4rem;
-      border:2px solid rgb(220,220,220);
+      border:2px solid var(--CS10);
       text-indent: 5px;
-      color: white;
+       color: var(--CS10);
       padding:6px;
   }
   .searchInput::placeholder{
-    color: rgb(200,200,200); 
+    color: var(--CS10);
   }
   .searchInput:focus{
-    color: white; 
-    border:2px solid rgb(250,250,250); 
+    color: var(--CS10);
+    border:2px solid var(--CS10);
     outline: none;
   }
 

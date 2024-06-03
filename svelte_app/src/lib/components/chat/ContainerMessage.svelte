@@ -1,7 +1,7 @@
 <script> 
-	import Input from '$lib/components/Chat/Input.svelte';
-	import MessagePop from '$lib/components/Chat/MessagePop.svelte';
-	import InputChat from '$lib/components/Chat/InputChat.svelte';
+	import Input from '$lib/components/chat/Input.svelte';
+	import MessagePop from '$lib/components/chat/MessagePop.svelte';
+	import InputChat from '$lib/components/chat/InputChat.svelte';
 	import {currentIdChat,chat} from '$lib/stores/chatStore.js';
 	import {nick} from "$lib/stores/globalStore.js";
 	import { onMount } from 'svelte';
@@ -40,7 +40,7 @@
 
 	<div class="flex flex-row items-center content-center gap-2 chatInfo">
 			<div class="infoImage"></div>
-			<h1 class="text-2xl">{info.name}</h1>
+			<h1 class="text-3xl m-0">{info.name}</h1>
 	</div>
 
 
@@ -70,7 +70,7 @@
 	<br/><br/><br/><br/>
 	</div>
 
-	<div class="flex flex-row justify-center items-center content-center inputChat">
+	<div class="flex flex-row justify-center items-center content-center gap-2 p-4 inputChat">
 
 			<InputChat/>
 
@@ -82,7 +82,7 @@
 	.chatInfo{
 		height: 10%;
 		width: 100%;
-		color: white;
+		color: var(--CIS10);
 		position: relative;
   	z-index: 999;
   	}
@@ -91,12 +91,9 @@
 		content: "";
 		width: 100%;
 		height: 100%;
-		background: var(--color4);
-  	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  	backdrop-filter: blur(5px);
-  	border: 1px solid rgba(0, 0, 0, 0.12);	
+		background-color: var(--CS10);
+  	border: 1px solid var(--CIS1);	
 		position: absolute;
-		opacity: .89;
 		}
 		.chatInfo h1{
 			font-family: 'Jaro', sans-serif;
@@ -110,27 +107,19 @@
 			margin-left: 1%;
 		  background: rgba(0, 220, 0, 0.6);
   		border-radius: 100%;
-  		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-
-  		backdrop-filter: blur(5px);
   		border: 1px solid rgba(0, 0, 0, 0.12);
 			z-index: 999;
   	
 		}
 		
 	.containerMessage{
-		background-color: var(--colorScheme);
+		background-color: var(--CS10);
 		overflow: hidden;
 		color: black;
 		width: 100%;
 		height: 100%;
 		position: relative;
-	background-image: radial-gradient(var(--color4) 2px, transparent 2px);
-	background-size: 45px 45px;
-	background-color: var(--colorScheme);
-
-  		box-shadow: inset 50px 0px 100px 0px rgba(0, 0, 0, 0.1);
-	}
+ 	}
 	.message{
 		width: 100%;
 		height: 90%;
@@ -142,7 +131,7 @@
     width: 7px;
   	}
   	.message::-webkit-scrollbar-thumb {
-    background-color: var(--color1);
+    background-color: var(--CD2);
     border-radius: 10px;
   	}
   	.message::-webkit-scrollbar-button:single-button {
@@ -168,11 +157,9 @@
 	height: 9%;
 	width: 90%;
  	z-index: 99999;
-	background: rgba(255, 255, 255, 1);
-	box-shadow: 0 -3px 20px 10px rgba(0, 0, 0, .3);
-  	backdrop-filter: blur(1px);
-  	border-radius: 100px;
-  	margin-bottom: 20px;
+	background: var(--CIS10);
+  border-radius: 100px;
+  margin-bottom: 20px;
 	}	
 
 </style>

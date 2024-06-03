@@ -18,7 +18,6 @@ body{
 	font-family: 'Lato';
 }
 
-
 blockquote{
   margin: 0; /* Remove margem padrão */
   padding: .5rem;
@@ -29,75 +28,75 @@ blockquote{
   font-size: .9rem;
 }
 
-h1 {
+.markdown h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 
-h2 {
+.markdown h2 {
   font-size: 1.5rem;
   margin-bottom: 0.8rem;
 }
 
-h3 {
+.markdown h3 {
   font-size: 1.17rem;
   margin-bottom: 0.6rem;
 }
 
-h4 {
+.markdown h4 {
   font-size: 1rem;
   margin-bottom: 0.4rem;
 }
 
-h5 {
+.markdown h5 {
   font-size: 0.83rem;
   margin-bottom: 0.3rem;
 }
 
-h6 {
+.markdown h6 {
   font-size: 0.67rem;
   margin-bottom: 0.2rem;
 }
 
 /* Estilos para parágrafos */
-p {
+.markdown p {
   margin-bottom: 1rem;
 }
 
 /* Estilos para listas */
-ul, ol {
+.markdown ul, ol {
   margin-bottom: 1rem;
 
   list-style-type: decimal;
 }
-ol{
+.markdown ol{
 
   list-style-type: circle;
 }
-li{
+.markdown li{
 	margin-left: 1rem;
 }
 
 
 /* Estilos para links */
-a {
+.markdown a {
   color: #007bff;
   text-decoration: none;
 }
 
-a:hover {
+.markdown a:hover {
   text-decoration: underline;
 }
 
 /* Estilos para imagens */
-img {
+.markdown img {
   max-width: 100%;
   height: auto;
   margin-bottom: 1rem;
 }
 
 /* Estilos para blocos de código */
-pre {
+.markdown pre {
   background-color: var(--CIS-5);
   padding: 1rem;
   border-radius: 5px;
@@ -105,7 +104,7 @@ pre {
   margin-bottom: 1rem;
 }
 
-code {
+.markdown code {
   background-color: var(--CIS-5);
   padding: 0.25rem 0.5rem;
   border-radius: 3px;
@@ -113,16 +112,16 @@ code {
 }
 
 /* Estilos para texto em negrito e itálico */
-strong {
+.markdown strong {
   font-weight: bold;
 }
 
-em {
+.markdown em {
   font-style: italic;
 }
 
 /* Estilos para linha horizontal */
-hr {
+.markdown hr {
   border: none;
   border-top: 1px solid #ccc;
   margin: 1rem 0;

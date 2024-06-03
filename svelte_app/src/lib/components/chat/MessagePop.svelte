@@ -65,28 +65,13 @@ style="--tail:{tail};"
     padding: 10px;
     padding-bottom: 0;
     padding-right:30px;
-    color:var(--colorScheme);
     font-family: 'Lato';
     position: relative;
     border-radius: var(--tail);
     z-index: 0;
     overflow: hidden;
-    box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, .19);
-    }
-
-    .message:after{
-      content: "";
-      width: 120%;
-      left: -10%;
-      top: -10%;
-      height: 120%;
-      position: absolute;
-      background: var(--color4);
-      box-shadow: 0px 10px 20px 100px rgba(0, 0, 0, 1);
-      backdrop-filter: blur(2px);
-      opacity: 0.93;
-    
-    
+    background: var(--CIS10);
+    color: var(--CS10);
     }
 
   .header{
@@ -110,7 +95,7 @@ style="--tail:{tail};"
   }
   .data{
     position:relative;
-    color: rgb(40,40,40);
+    color: var(--CIS10);
     transform: translateX(var(--dataPos));
     z-index: 99;
   }

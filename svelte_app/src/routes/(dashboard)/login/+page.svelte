@@ -1,7 +1,7 @@
 <script>
 		import Input from '$lib/components/login/Input.svelte';
     import Button from '$shared/Button.svelte';
-	  import {loginStudent,changeNickStudent} from '$lib/api/auth.js';    
+	  import {loginStudent,changeNickStudent,submitImage} from '$lib/api/auth.js';    
     import chatIcon from "$lib/images/chatIcon.svg";
     import newsIcon from '$lib/images/newspaper.svg'
     import PopUp from '$shared/PopUp.svelte';
@@ -9,20 +9,38 @@
     import keyIcon from '$image/key.svg';
     import partyIcon from '$image/party.svg';
     import { addToast } from "$store/globalStore.js";
+    import ImageIcon from '$image/emojis/image.svg';
     import Toaster from '$shared/Toaster.svelte';
     import { Confetti } from "svelte-confetti"
     import Background from '$shared/Background.svelte';
     import {goto} from '$app/navigation';
+    import {onMount} from 'svelte';
     let loginElement;
     let loadingElement;
     let welcomeElement;
     let explosion = false;
-
+    let formImage;
+    let inputImage;
     let login;
     let password;
     let nick;
 
+   onMount(() => {
+    inputImage.addEventListener("change", () => {
+      postImage();
+    });
+    });
+    const postImage = async ()=>{
+      try{
+        const formData = new FormData(formImage);
+        console.log(formData);
+        await submitImage(formData);
+      }
+      catch(err){
+        console.log('erro: ', err);
+      }
 
+    }
     const handleLogin = async () =>{
     	
       try{
@@ -105,24 +123,35 @@
     <PopUp type="loading" customText="Aguarde enquanto preparamos tudo" bind:this={loadingElement}/>
   </div>    
     
-  <div class="flex flex-col justify-center items-center containerDesign loginSide" bind:this={loginElement}>
+  <div class="flex flex-col justify-center items-center gap-6 containerDesign loginSide" bind:this={loginElement}>
     
 
-    <div class="flex flex-col justify-center items-center mb-10 w-full">
+    <div class="flex flex-col justify-center items-center w-full">
   		<h1 class="text-5xl text-center m-0 p-0">Bem vindo estudante</h1>
   		<h2 class="text-lg m-0 subTitle">Use sua conta do SIGAA</h2>
   	</div>
-  	<div class="flex flex-col justify-center items-center w-full" style="gap:3rem;">
+  	<div class="flex flex-col justify-center gap-6 items-center w-full">
   		<Input type="text" icon={loginIcon} placeholder="Seu usuário" value="" bind:this={login}/>
   		<Input type="password" icon={keyIcon} placeholder="Sua senha" value="" bind:this={password}/>
   		<Button handleClick={handleLogin} value="Logar"/>
   	</div>
   </div>
 
-  <div class="flex flex-col justify-center items-center containerDesign welcomeBoard" bind:this={welcomeElement}>
-    <div class="flex flex-col justify-center items-center content-center mb-10 w-full">
+  <div class="flex flex-col justify-center items-center containerDesign gap-5 welcomeBoard" bind:this={welcomeElement}>
+    <div class="flex flex-col justify-center items-center content-center w-full">
       <h1 class="text-5xl text-center m-0 p-0">Boas vinda a nossa plataforma</h1>
         </div>
+
+      <form on:submit|preventDefault={postImage} bind:this={formImage} enctype="multipart/form-data">
+      <label class="cursor-pointer" for="imageInput">
+        <span>
+        <img src={ImageIcon}/>
+        </span>
+      </label>
+
+      <input class="hidden" bind:this="{inputImage}" id="imageInput" value="" type="file" name="image" accept="image/*" />
+    </form>
+
     <div class="flex flex-col justify-center items-center w-full" style="gap:3rem;">
       <Input type="text" textAlign="center" textIndent=0 placeholder="Insira aqui seu apelido" value="" bind:this={nick}/>
       
@@ -141,16 +170,6 @@
 </div>
 
 <style>
-
-.pageChoose{
-  width: 100vw;
-  height: 80dvh;
-  font-family: "Jaro", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  flex-wrap: wrap;
-  display: none;
-}
 .subTitle{
   font-family: 'Jaro', sans-serif;
   z-index: 1000;
@@ -161,12 +180,12 @@
   font-optical-sizing: auto;
   font-weight: 400;
   width: 100vw;
-  height: 80dvh;
+  height: 300px;
   z-index: 100;
   }
   .confetti{
     width: 100%;
-    height: 100%;
+    height: 10%;
     z-index: 0;
     top:250px;
     pointer-events: none;
@@ -175,14 +194,23 @@
 .loginSide{
   width: 100%;
   max-width: 450px;
+  display: none;
   }
   .welcomeBoard{
   width: 100%;
   max-width: 450px;
   z-index: 100;
   position: relative;
-  display: none;
   }
+  form img{
+    width: 100px;
+    height: 100px;
+    padding: 1rem;
+    filter:contrast(var(--CT)) brightness(var(--BG));
+  }
+  form label:hover img{
+    filter:contrast(var(--CT)) brightness(var(--BG)/100);
+   }
 
   @keyframes wiggle2{
     0%{

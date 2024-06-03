@@ -1,7 +1,7 @@
 <script>
 
     import { tick } from 'svelte'
-import Input from '$lib/components/Chat/Input.svelte';
+import Input from '$lib/components/chat/Input.svelte';
 import {sendMessage,receiveMessage} from '$lib/api/chat';
 import {currentIdChat,chat} from '$lib/stores/chatStore.js';
 	import airplane from '$lib/images/airplane.svg';
@@ -41,20 +41,21 @@ button{
 	width: 4%;
 }
 .sendMessage{
-	background-color: var(--color4);
+
+		background-color: var(--CS10);
 	border-radius: 100%;
-	width: 4.5%;
+	width: 40px;
 	aspect-ratio: 1/1;
 	position: relative;
 	overflow: hidden;
 }
 .sendMessage:after{
     content: "";
-    width: 120%;
+    width: 160%;
     left: 0;
     top: 0;
     position: absolute;
-    background: var(--color3);
+   	background-color: var(--CD);
     transform: translate(-100%,20%);
     transition: all .6s;
     aspect-ratio: 1/1;
@@ -62,17 +63,21 @@ button{
     z-index: 9;
 }
 .sendMessage:hover::after{
-    transform: translate(-10%,0);
+    transform: translate(-15%,-10%);
 
 }
+.sendMessage:hover img{
+	filter: contrast(var(--BG)) brightness(calc(var(--CT) * 1000 ));
+}
 .sendMessage img{
-	max-width: 55%;
-	max-height: 55%;
+	max-width: 60%;
+	max-height: 60%;
 	object-fit: contain;
 	position: absolute;
-	transform: translate(40%,-55%);
-	filter: contrast(0%) brightness(10);
+	transform: translate(35%,-55%);
+	filter: contrast(var(--CT)) brightness(var(--BG));
 	z-index: 999999;
+    transition-delay: .3s;
 }
 .input{
 	width: 78%;

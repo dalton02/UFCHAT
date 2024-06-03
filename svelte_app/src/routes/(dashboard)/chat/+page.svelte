@@ -53,7 +53,7 @@
 	margin: 0;
 }
 .sideChat{
-	width: 29%;
+	width: 400px;
 	height: 100%;
 }
 .sideMessage{

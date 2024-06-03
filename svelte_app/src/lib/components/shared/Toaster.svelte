@@ -26,6 +26,6 @@
     margin-top: 1rem;
     justify-content: center;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 10000000000000000;
   }
 </style>

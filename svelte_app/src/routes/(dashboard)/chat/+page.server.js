@@ -1,17 +1,15 @@
 
-//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // Disable SSL certificate validation
-
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // Disable SSL certificate validatio
 import {devEnvironment} from '$lib/api/keys.js';
 
 export const load = async({fetch}) =>{
 
 
-	const ENDPOINT = [`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/`,`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/session/`];
+	const ENDPOINT = [`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/getChunk/`,`${devEnvironment.PUBLIC_SERVER_GATEWAY}/chat/join`];
 	let headers = new Headers();
 	
 	const REQUEST = {
-    	method: 'GET',
+    	method: 'POST',
     	headers: headers,
   		credentials: 'include'
 	};
@@ -21,10 +19,13 @@ export const load = async({fetch}) =>{
 	console.log(json);
 	const responseSession = await fetch(ENDPOINT[1], REQUEST);
 	const jsonSession = await responseSession.json();
-	
-	console.log(jsonSession);
+	console.log(json.data);
+	if(json.data==null){
+		throw new Error();
+	}
+
 	return {
-		chat: json,
+		chat: json.data,
 		session: jsonSession
 	};
 
