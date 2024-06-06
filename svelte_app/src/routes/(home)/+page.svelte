@@ -21,7 +21,7 @@ console.log(data);
 	on:click={goto(`/postagem/${article.title}`)}>
 	
 	<div class="flex flex-row w-full gap-2 about">
-	<img alt="user" src={devEnvironment.PUBLIC_STATIC_USER+'/files/'+article.author_user+'.webp'}/>
+	<img alt="user" src={devEnvironment.PUBLIC_STATIC_USERSFILE+article.author_user+'.webp'}/>
 	<div class="flex flex-col">
 	<span class="text-base font-normal">{nameNormalize(article.author_name)}</span>
 	<span class="text-xs font-thin date">{formatData(article.send_at,2)}</span>

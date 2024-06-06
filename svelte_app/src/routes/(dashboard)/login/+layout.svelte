@@ -1,15 +1,8 @@
 <script>
   import "$src/app.css";
   import "$lib/fonts/fonts.css";
-  import {theme} from '$lib/stores/globalStore';
 
 </script>
-
-
-<svelte:head>
-  <meta name="color-scheme" content={`${$theme}`}/>
-  <link rel="stylesheet" href={`/themes/dark.css`}/>
-</svelte:head>
 
 
 <slot></slot>

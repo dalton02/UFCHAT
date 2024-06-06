@@ -1,6 +1,7 @@
 import {writable} from 'svelte/store';
 
-export const theme = writable("light");
+const storedTheme = localStorage.getItem('theme');
+export const theme = writable(storedTheme ? storedTheme : 'light');
 export const nick = writable("");
 
 export const toasts = writable([])

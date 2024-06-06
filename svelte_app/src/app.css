@@ -16,6 +16,7 @@ body{
 	align-items: center;
 	overflow-x: hidden;
 	font-family: 'Lato';
+  transition: color 2s;
 }
 
 blockquote{

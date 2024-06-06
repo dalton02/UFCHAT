@@ -52,7 +52,6 @@
 		console.log('a');
 		previewContainer.style.display = "flex";
 		writeContainer.style.display = "none";
-		myArticle = changeDomainURL(myArticle,'http://localhost:4020/');
 	};
 	const killPreview = () => {
 		previewContainer.style.display = "none";
@@ -61,7 +60,7 @@
 </script>
 	<Toaster/>
 
-<div class="container relative p-14 pt-0 pb-0 flex flex-col items-center" bind:this="{writeContainer}">
+<div class="container relative p-14 pt-0 pb-0 p:p-0 flex flex-col items-center" bind:this="{writeContainer}">
 
 	<textarea class="p-14 pb-0 pt-10 w-5/6 text-3xl textTitle" placeholder="Titulo" bind:value="{myTitle}" />
 

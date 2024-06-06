@@ -27,7 +27,7 @@ const moveTo = (div) =>{
 		
 			<div class="flex flex-row w-full gap-4 about">
 		
-				<img alt="user" src={devEnvironment.PUBLIC_STATIC_USER+'/files/'+article.author_user+'.webp'}/>
+				<img alt="user" src={devEnvironment.PUBLIC_STATIC_USERSFILE+article.author_user+'.webp'}/>
 				<div class="flex flex-col gap-1">
 					<span class="text-xl font-normal">{nameNormalize(article.author_name)}</span>
 					<div class="flex flex-row flex-wrap gap-1">
@@ -53,7 +53,7 @@ const moveTo = (div) =>{
 				{#each article.comments as comment}
 					<div class="flex flex-col gap-4 w-full">
 					<div class="flex flex-row gap-2 w-full">
-					<img alt="user" src={devEnvironment.PUBLIC_STATIC_USER+'/files/'+article.author_user+'.webp'}
+					<img alt="user" src={devEnvironment.PUBLIC_STATIC_USERSFILE+comment.author_user+'.webp'}
 					/>
 					<div class="flex flex-col w-full p-4  comment">
 						<span class="flex flex-row flex-wrap items-center gap-1">
@@ -70,7 +70,7 @@ const moveTo = (div) =>{
 						{#if comment.childs.length>0}
 						{#each comment.childs as child}
 							<div class="flex flex-row gap-2 w-full">
-								<img alt="user" src={devEnvironment.PUBLIC_STATIC_USER+'/files/'+article.author_user+'.webp'}/>
+								<img alt="user" src={devEnvironment.PUBLIC_STATIC_USERSFILE+child.author_user+'.webp'}/>
 								<div class="flex flex-col w-full p-4 comment">
 								<span class="flex flex-row flex-wrap gap-1">
 								<h3 class="text-sm font-bold">{nameNormalize(child.author_name)} •</h3>
@@ -85,7 +85,9 @@ const moveTo = (div) =>{
 						{/if}
 						<div class="flex flex-row justify-end w-full">
 						<div class="w-full">
+						{#if data.isAuth==true}
 						<Comentar currentArticle={article.id} parentId={comment.id} article={article}/>
+						{/if}
 						</div>
 					</div>
 

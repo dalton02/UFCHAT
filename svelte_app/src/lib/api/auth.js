@@ -35,26 +35,23 @@ export const loginStudent = async (login,password) =>{
 
 export const changeNickStudent = async (nick) =>{
 
-	const ENDPOINT = devEnvironment.PUBLIC_SERVER_GATEWAY+"/session/updateUser";
+	const ENDPOINT = devEnvironment.PUBLIC_SERVER_GATEWAY+"/session/update";
 	let headers = new Headers();
 
   	headers.append('Content-Type', 'application/json');
-  	headers.append('Accept', 'application/json');
-
-  	headers.append('Access-Control-Allow-Origin', '*');
-  	headers.append('Access-Control-Allow-Credentials', 'true');
-
 	const REQUEST = {
     	method: 'PUT',
     	body: JSON.stringify({
        		"user_nick": nick
        	}),
-    	headers: headers,
+       	headers: headers,
   		credentials: 'include'
 	};
 
 	const response = await fetch(ENDPOINT, REQUEST);
 	const json = await response.json();
+	if(!response.ok)
+		throw new Error();
 	return response;
 }
 export const submitImage = async(formData)=> {
@@ -71,5 +68,6 @@ export const submitImage = async(formData)=> {
         	console.log(json.Message);
         	return;
         }
+        return json;
 
 }

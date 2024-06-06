@@ -17,7 +17,7 @@ export const submitImage = async(formData)=> {
         	return;
         }
 
-        return `![Descrição da imagem](${devEnvironment.PUBLIC_SERVER_NGINX}/filehost/news/${json.Url})`;
+        return `![Descrição da imagem](${devEnvironment.PUBLIC_STATIC_NEWSFILE}${json.Url})`;
 }
 
 export const submitPost = async(title,content,tags)=> {

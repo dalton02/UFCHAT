@@ -9,38 +9,19 @@
     import keyIcon from '$image/key.svg';
     import partyIcon from '$image/party.svg';
     import { addToast } from "$store/globalStore.js";
-    import ImageIcon from '$image/emojis/image.svg';
     import Toaster from '$shared/Toaster.svelte';
     import { Confetti } from "svelte-confetti"
     import Background from '$shared/Background.svelte';
     import {goto} from '$app/navigation';
-    import {onMount} from 'svelte';
+    import Profile from '$lib/components/login/Profile.svelte';
     let loginElement;
     let loadingElement;
     let welcomeElement;
     let explosion = false;
-    let formImage;
-    let inputImage;
     let login;
     let password;
     let nick;
 
-   onMount(() => {
-    inputImage.addEventListener("change", () => {
-      postImage();
-    });
-    });
-    const postImage = async ()=>{
-      try{
-        const formData = new FormData(formImage);
-        console.log(formData);
-        await submitImage(formData);
-      }
-      catch(err){
-        console.log('erro: ', err);
-      }
-
-    }
     const handleLogin = async () =>{
     	
       try{
@@ -94,12 +75,13 @@
     await changeNickStudent(nick.getInput());
     
     loadingElement.exitPop();
-    
+    goto('/',{invalidateAll:true});
     welcomeElement.style.display="none";
     
     }
     catch(err){
     
+    loadingElement.exitPop();
       addToast({
         message: 'Apelido já existe',
         type: "error",
@@ -141,16 +123,7 @@
     <div class="flex flex-col justify-center items-center content-center w-full">
       <h1 class="text-5xl text-center m-0 p-0">Boas vinda a nossa plataforma</h1>
         </div>
-
-      <form on:submit|preventDefault={postImage} bind:this={formImage} enctype="multipart/form-data">
-      <label class="cursor-pointer" for="imageInput">
-        <span>
-        <img src={ImageIcon}/>
-        </span>
-      </label>
-
-      <input class="hidden" bind:this="{inputImage}" id="imageInput" value="" type="file" name="image" accept="image/*" />
-    </form>
+        <Profile/>
 
     <div class="flex flex-col justify-center items-center w-full" style="gap:3rem;">
       <Input type="text" textAlign="center" textIndent=0 placeholder="Insira aqui seu apelido" value="" bind:this={nick}/>
@@ -194,23 +167,14 @@
 .loginSide{
   width: 100%;
   max-width: 450px;
-  display: none;
   }
   .welcomeBoard{
   width: 100%;
   max-width: 450px;
   z-index: 100;
-  position: relative;
+  
+  display: none;
   }
-  form img{
-    width: 100px;
-    height: 100px;
-    padding: 1rem;
-    filter:contrast(var(--CT)) brightness(var(--BG));
-  }
-  form label:hover img{
-    filter:contrast(var(--CT)) brightness(var(--BG)/100);
-   }
 
   @keyframes wiggle2{
     0%{
